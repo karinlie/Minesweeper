@@ -3,6 +3,7 @@ package prosjektkode;
 public class Tile {
 
 	private String tile;
+	private int neighborMines;
 	
 	public void setEmpty() {
 		tile = " ";
