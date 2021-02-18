@@ -1,19 +1,21 @@
 package prosjektkode;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 import java.util.Arrays;
+import java.util.List;
 
 public class Board {
 	
-	private ArrayList<Tile> board;
+	private Tile[][] board;
 	private int neighborMines;
-	private final Array<Integer> levels = new ArrayList<Integer>(Arrays.asList(10,25,35));
+	private final List<Integer> levels = Arrays.asList(10,25,35);
 	private int size;
+	
 	
 	
 	public Board(int level) {
 		size = levels.get(level-1);
+		this.board = new Tile[size][size];
 	}
 	
 	public void setNeighborMines() {
