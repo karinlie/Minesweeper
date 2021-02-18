@@ -3,7 +3,7 @@ package prosjektkode;
 public class Tile {
 
 	private String tile;
-	private int neighborMines;
+
 	
 	public void setEmpty() {
 		tile = " ";
@@ -13,11 +13,11 @@ public class Tile {
 		tile = "*";
 	}
 	
-	public void setNumber(int neighborMines) {
+	public void setNumber(int getNeighborMines()) {
 		/* her må vi finne på noe lurt
 		 * og det trengs kalkulasjoner i Board 
 		 * for å finne ut hvor mange neighborMines det er
 		 */
-		tile = String.valueOf(neighborMines);
+		tile = String.valueOf(getNeighborMines());
 	}
 }
