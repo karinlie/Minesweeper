@@ -8,7 +8,7 @@ public class Board {
 	
 	private Tile[][] board;
 	private int neighborMines;
-	private final List<Integer> levels = Arrays.asList(10,25,35);
+	private final List<Integer> levels = List.of(10,25,35);
 	private int size;
 	
 	
