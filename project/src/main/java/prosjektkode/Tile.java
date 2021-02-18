@@ -20,4 +20,8 @@ public class Tile {
 		 */
 		tile = String.valueOf(getNeighborMines());
 	}
+	
+	public String getTile() {
+		return this.tile;
+	}
 }
