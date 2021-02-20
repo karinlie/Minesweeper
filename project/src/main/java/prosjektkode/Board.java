@@ -1,8 +1,10 @@
 package prosjektkode;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 public class Board {
 	
@@ -20,24 +22,40 @@ public class Board {
 	public Board(int level) {
 		size = levels.get(level-1); // finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = this.numberOfMines.get(level-1); // antall miner brettet skal ha
-		this.board = new Tile[size][size];    // oppretter brett av todimensjonale arrays
-		
-		
+		this.board = new Tile[size][size];// oppretter brett av todimensjonale arrays
+		ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>();
+		/* TO-DO
+
+		 * brettet skal fylles. 
+		 * vi må først sjekke om det skal være en mine der, ved å sjekke om pos ligger i mines lista
+		 * deretter kan vi etterfylle resten med blanks (setEmpty)
+		 * 
+		 * så må vi på et eller annet vis få fylt inn de tallene, men det kan kanskje
+		 * gjøres i en ny for-løkke der vi kaller funksjonen setNeighborMines()
+		 */
 		
 		for (int y = 0; y < size; y++) {      
 			for (int x = 0; x < size; x++) {
-				/* TO-DO
-				 * brettet skal fylles. 
-				 * vi må først sjekke om det skal være en mine der, ved å sjekke om pos ligger i mines lista
-				 * deretter kan vi etterfylle resten med blanks (setEmpty)
-				 * 
-				 * så må vi på et eller annet vis få fylt inn de tallene, men det kan kanskje
-				 * gjøres i en ny for-løkke der vi kaller funksjonen setNeighborMines()
-				 */
+				setEmpty(x, y);
+				everyPosition.add(new Vector<Integer>(x,y));
 			}
 		}
-		
+		for(int i = 0 ; i < numOfMines; i++) {
+			int randomIndex = (int) (Math.random() * everyPosition.size());
+			Vector<Integer> position = everyPosition.get(randomIndex);
+			everyPosition.remove(randomIndex);
+			setMine(position.get(0), position.get(1));
+		}
 	}
+	
+	public void setMine(int x, int y) {
+		board[x][y].setMine();
+	}
+	
+	public void setEmpty(int x, int y) {
+		board[x][y].setEmpty();
+	}
+	
 	
 	public void setNeighborMines() {
 		/*
@@ -49,10 +67,21 @@ public class Board {
 		 */
 	}
 	
-	public int getNeighborMines() {
-		return this.neighborMines;
+	public int getNeighborMines(int x, int y) {
+		int num = 0;
+		for (int i = x - 1; i <= x + 1; i++) {
+			for (int j = y - 1; j <= y + 1; j++) {
+				if (!(i==x && j==y) && isPositionWithinBoard(i, j) && board[i][j].isBomb()) {
+					num += 1;
+				}
+			}
+		}
+		return num;
 	}
 	
+	public boolean isPositionWithinBoard(int x, int y) {
+		return (0 <= x && x < size && 0 <= y && y < size );
+	}
 	private boolean checkIfMine(Tile tile) {
 		return tile.equals("*");
 	}

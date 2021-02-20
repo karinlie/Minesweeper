@@ -12,6 +12,9 @@ public class Tile {
 	public void setMine() { // setter mine
 		tile = "*";
 	}
+	public boolean isBomb() {
+		return tile == "*";
+	}
 	
 	public void setNumber(int getNeighborMines()) { // setter antall nabominer
 		/* her må vi finne på noe lurt
