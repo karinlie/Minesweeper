@@ -5,15 +5,15 @@ public class Tile {
 	private String tile;
 
 	
-	public void setEmpty() {
+	public void setEmpty() { // setter tom boks
 		tile = " ";
 	}
 	
-	public void setMine() {
+	public void setMine() { // setter mine
 		tile = "*";
 	}
 	
-	public void setNumber(int getNeighborMines()) {
+	public void setNumber(int getNeighborMines()) { // setter antall nabominer
 		/* her må vi finne på noe lurt
 		 * og det trengs kalkulasjoner i Board 
 		 * for å finne ut hvor mange neighborMines det er
@@ -21,7 +21,8 @@ public class Tile {
 		tile = String.valueOf(getNeighborMines());
 	}
 	
-	public String getTile() {
+	public String getTile() { // henter ut verdi på mine
 		return this.tile;
 	}
+	
 }
