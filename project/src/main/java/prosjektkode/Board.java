@@ -9,7 +9,6 @@ import java.util.Vector;
 public class Board {
 	
 	private Tile[][] board; // to-dimensjonalt array
-	private int neighborMines; // felt for antall nabominer
 
 	private final List<Integer> levels = List.of(10,25,35); // str på brett utifra vanskelighetsgrad
 	private final List<Integer> numberOfMines = Arrays.asList(10,40,100); // antall miner utifra vanskelighetsgrad
@@ -21,23 +20,14 @@ public class Board {
 	
 	public Board(int level) {
 		size = levels.get(level-1); // finner str. på brettet utifra vanskelighetsgrad
-		this.numOfMines = this.numberOfMines.get(level-1); // antall miner brettet skal ha
-		this.board = new Tile[size][size];// oppretter brett av todimensjonale arrays
-		ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>();
-		/* TO-DO
-
-		 * brettet skal fylles. 
-		 * vi må først sjekke om det skal være en mine der, ved å sjekke om pos ligger i mines lista
-		 * deretter kan vi etterfylle resten med blanks (setEmpty)
-		 * 
-		 * så må vi på et eller annet vis få fylt inn de tallene, men det kan kanskje
-		 * gjøres i en ny for-løkke der vi kaller funksjonen setNeighborMines()
-		 */
+		numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
+		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
+		ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene
 		
 		for (int y = 0; y < size; y++) {      
 			for (int x = 0; x < size; x++) {
 				setEmpty(x, y);
-				everyPosition.add(new Vector<Integer>(x,y));
+				everyPosition.add(new Vector<Integer>(x,y)); //fyller arraylist med posisjonen nå lagt til
 			}
 		}
 		for(int i = 0 ; i < numOfMines; i++) {
@@ -46,32 +36,36 @@ public class Board {
 			everyPosition.remove(randomIndex);
 			setMine(position.get(0), position.get(1));
 		}
+		
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				if (!getTileAt(x,y).isMine()) {
+					int neighborMines = getNeighborMines(x,y);
+					if (!(neighborMines == 0)) {
+						setNeighborMines(x,y,neighborMines);
+					}
+				}
+			}
+		}
 	}
 	
 	public void setMine(int x, int y) {
-		board[x][y].setMine();
+		board[y][x].setMine();
 	}
 	
 	public void setEmpty(int x, int y) {
-		board[x][y].setEmpty();
+		board[y][x].setEmpty();
 	}
 	
-	
-	public void setNeighborMines() {
-		/*
-		 * TO-DO
-		 * Vi må lage en mekanisme som iteterer over brettet, og teller
-		 * antall nabominer ved å sjekke om det er miner på følgende posisjoner:
-		 * (x-1,y),(x-1,y-1),(x-1,y+1),(x,y+1),(x,y-1),(x+1,y),(x+1,y-1),(x+1,y+1)
-		 * Før man begynner telling må man sjekke om feltet man står på er en mine
-		 */
+	public void setNeighborMines(int x, int y, int neighborMines) {
+		board[y][x].setNumber(neighborMines);
 	}
 	
 	public int getNeighborMines(int x, int y) {
 		int num = 0;
 		for (int i = x - 1; i <= x + 1; i++) {
 			for (int j = y - 1; j <= y + 1; j++) {
-				if (!(i==x && j==y) && isPositionWithinBoard(i, j) && board[i][j].isBomb()) {
+				if (!(i==x && j==y) && isPositionWithinBoard(i, j) && board[i][j].isMine()) {
 					num += 1;
 				}
 			}
@@ -82,30 +76,14 @@ public class Board {
 	public boolean isPositionWithinBoard(int x, int y) {
 		return (0 <= x && x < size && 0 <= y && y < size );
 	}
-	private boolean checkIfMine(Tile tile) {
-		return tile.equals("*");
-	}
 	
-	private boolean checkIfEmpty(Tile tile) {
-		return tile.equals(" ");
-	}
-	
-	private boolean checkIfNum(Tile tile) {
-		return (!checkIfMine(tile)|| !checkIfEmpty(tile));
+	private boolean isNum(Tile tile) {
+		return (!tile.isMine()|| !tile.isEmpty());
 	}
 	
 	public Tile getTileAt(int x, int y) {
 		return board[y][x];
 	}
-	
-	private void setMines(){
-		while(mines.size() < numOfMines) {
-			//TO-DO
-			// random generere to tall, x og y, som skal være mindre enn size
-			// deretter sjekke om de ligger i lista mines
-			// gjør de ikke det legger vi dem til som flyttall (evt string delt med .)
-		}
-	}
-	
+
 	
 }
