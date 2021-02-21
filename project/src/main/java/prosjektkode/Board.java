@@ -84,6 +84,11 @@ public class Board {
 	public Tile getTileAt(int x, int y) {
 		return board[y][x];
 	}
+	
+	public static void main(String[] args) {
+		Board b1 = new Board(1);
+		System.out.println(b1);
+	}
 
 	
 }
