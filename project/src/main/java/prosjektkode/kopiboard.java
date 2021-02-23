@@ -1,5 +1,7 @@
 package prosjektkode;
 
+package prosjektkode;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +10,7 @@ import java.util.Vector;
 
 import javafx.scene.layout.GridPane;
 
-public class Board {
+public class kopiboard {
 	
 	private Tile[][] board; // to-dimensjonalt array
 
@@ -20,7 +22,7 @@ public class Board {
 	private List<Double> mines; // plasseringen av de forskjellige minene
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
 	
-	public Board(GridPane gridPane, int level) {
+	public kopiboard(int level) {
 		size = levels.get(level-1); // finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
@@ -32,11 +34,11 @@ public class Board {
 				everyPosition.add(makeVector(x, y)); //fyller arraylist med posisjonen nå lagt til
 			}
 		}
-		
+		System.out.println(everyPosition);
 		for(int i = 0 ; i < numOfMines; i++) {
 			int randomIndex = (int) (Math.random() * everyPosition.size());
 			Vector<Integer> position = everyPosition.get(randomIndex);
-//			System.out.println(position);
+			System.out.println(position);
  			setMine(position.get(0), position.get(1));
 			everyPosition.remove(randomIndex);
 		}
@@ -46,27 +48,12 @@ public class Board {
 				if (!getTileAt(x,y).isMine()) {
 					int neighborMines = getNeighborMines(x,y);
 					if (!(neighborMines == 0)) {
+						System.out.println("["+ String.valueOf(x)+","+String.valueOf(y)+"]";
 						setNeighborMines(x,y,neighborMines);
 					}
 				}
 			}
 		}
-		
-
-		for(int i = 0; i < getSize(); i++) {
-			for(int j = 0; j < getSize(); j++) {
-				
-				Tile tile = getTileAt(i, j);
-				tile.setPrefSize(40, 40);
-				tile.setText(tile.getTile());
-				tile.setOnAction(event -> {
-					System.out.println(tile);
-				});
-				gridPane.add(tile, i, j);
-			}
-		}
-		
-		gridPane.setPrefSize(400, 400);
 	}
 	
 	public void setMine(int x, int y) {
@@ -137,10 +124,10 @@ public class Board {
 		return boardString;
 	}
 	
-//	public static void main(String[] args) {
-//		Board b1 = new Board(1);
-//		System.out.println(b1);
-//	}
+	public static void main(String[] args) {
+		kopiboard b1 = new kopiboard(1);
+		System.out.println(b1);
+	}
 
 	
 }
