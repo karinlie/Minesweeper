@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import javafx.scene.layout.GridPane;
+
 public class Board {
 	
 	private Tile[][] board; // to-dimensjonalt array
@@ -18,7 +20,7 @@ public class Board {
 	private List<Double> mines; // plasseringen av de forskjellige minene
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
 	
-	public Board(int level) {
+	public Board(GridPane gridPane, int level) {
 		size = levels.get(level-1); // finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
@@ -49,6 +51,22 @@ public class Board {
 				}
 			}
 		}
+		
+
+		for(int i = 0; i < getSize(); i++) {
+			for(int j = 0; j < getSize(); j++) {
+				
+				Tile tile = getTileAt(i, j);
+				tile.setPrefSize(40, 40);
+				tile.setText(tile.getTile());
+				tile.setOnAction(event -> {
+					System.out.println(tile);
+				});
+				gridPane.add(tile, i, j);
+			}
+		}
+		
+		gridPane.setPrefSize(400, 400);
 	}
 	
 	public void setMine(int x, int y) {

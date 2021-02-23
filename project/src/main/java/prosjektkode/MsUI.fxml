@@ -39,7 +39,7 @@
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="9" GridPane.rowIndex="7" />
                   <Button fx:id="button2" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="1" />
                   <Button fx:id="button3" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="2" />
-                  <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="3" />
+                  <Button minWidSth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="3" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="4" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="5" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="7" />

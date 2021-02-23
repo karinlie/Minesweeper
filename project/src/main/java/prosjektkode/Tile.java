@@ -1,6 +1,8 @@
 package prosjektkode;
 
-public class Tile {
+import javafx.scene.control.Button;
+
+public class Tile extends Button {
 
 	private String tile;
 
