@@ -28,4 +28,8 @@ public class Tile {
 		return this.tile;
 	}
 	
+	public String toString() {
+		return this.tile;
+	}
+	
 }
