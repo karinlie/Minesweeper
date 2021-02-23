@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1">
+<AnchorPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="prosjektkode.MSController">
    <children>
       <AnchorPane prefHeight="500.0" prefWidth="500.0">
          <children>
@@ -38,13 +37,13 @@
               </rowConstraints>
                <children>
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="9" GridPane.rowIndex="7" />
-                  <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="1" />
-                  <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="2" />
+                  <Button fx:id="button2" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="1" />
+                  <Button fx:id="button3" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="2" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="3" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="4" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="5" />
-                  <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="6" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="7" />
+                  <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="6" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="8" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="9" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.rowIndex="1" />
@@ -136,7 +135,7 @@
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="7" GridPane.rowIndex="9" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="8" GridPane.rowIndex="9" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" GridPane.columnIndex="9" GridPane.rowIndex="9" />
-                  <Button minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0" />
+                  <Button fx:id="button1" minWidth="-Infinity" mnemonicParsing="false" onAction="#testButton" prefHeight="40.0" prefWidth="39.0" />
                </children>
             </GridPane>
          </children>
