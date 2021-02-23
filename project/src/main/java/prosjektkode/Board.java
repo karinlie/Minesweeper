@@ -34,7 +34,7 @@ public class Board {
 		for(int i = 0 ; i < numOfMines; i++) {
 			int randomIndex = (int) (Math.random() * everyPosition.size());
 			Vector<Integer> position = everyPosition.get(randomIndex);
-			System.out.println(position);
+//			System.out.println(position);
  			setMine(position.get(0), position.get(1));
 			everyPosition.remove(randomIndex);
 		}
@@ -105,6 +105,18 @@ public class Board {
 	
 	public int getNumOfMines() {
 		return this.numOfMines;
+	}
+	
+	@Override
+	public String toString() {
+		String boardString = "";
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				boardString += getTileAt(x,y);
+			}
+			boardString += '\n';
+		}
+		return boardString;
 	}
 	
 	public static void main(String[] args) {

@@ -14,6 +14,7 @@ public class MSController {
 	private void initialize() {
 		this.board = new Board(level);
 	}
+	
 	@FXML
 	public void handleLevel1() {
 		this.level = 1;
