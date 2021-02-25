@@ -1,8 +1,5 @@
 package prosjektkode;
 
-package prosjektkode;
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +45,7 @@ public class kopiboard {
 				if (!getTileAt(x,y).isMine()) {
 					int neighborMines = getNeighborMines(x,y);
 					if (!(neighborMines == 0)) {
-						System.out.println("["+ String.valueOf(x)+","+String.valueOf(y)+"]";
+						System.out.println("["+ String.valueOf(x)+","+String.valueOf(y)+"]");
 						setNeighborMines(x,y,neighborMines);
 					}
 				}
@@ -95,10 +92,6 @@ public class kopiboard {
 	public boolean isPositionWithinBoard(int x, int y) {
 		return (0 <= x && x < size && 0 <= y && y < size );
 	}
-	
-//	private boolean isNum(Tile tile) {
-//		return (!tile.isMine()|| !tile.isEmpty());
-//	}
 	
 	public Tile getTileAt(int x, int y) {
 		return board[y][x];

@@ -17,58 +17,61 @@ public class Board {
 
 	private int size; //faktisk brettstørrelse
 	private int numOfMines; //faktisk antall miner
-	private List<Double> mines; // plasseringen av de forskjellige minene
+	private ArrayList<Vector<Integer>> mines; // plasseringen av de forskjellige minene
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
 	
 	public Board(GridPane gridPane, int level) {
-		size = levels.get(level-1); // finner str. på brettet utifra vanskelighetsgrad
+		this.size = levels.get(level-1); // finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
 		
-		for (int y = 0; y < size; y++) {      
-			for (int x = 0; x < size; x++) {
-				addTile(x,y);
-				setEmpty(x, y);
-				everyPosition.add(makeVector(x, y)); //fyller arraylist med posisjonen nå lagt til
-			}
-		}
+		addEmptyTiles();
 		
-		for(int i = 0 ; i < numOfMines; i++) {
-			int randomIndex = (int) (Math.random() * everyPosition.size());
-			Vector<Integer> position = everyPosition.get(randomIndex);
-//			System.out.println(position);
- 			setMine(position.get(0), position.get(1));
-			everyPosition.remove(randomIndex);
-		}
+		addMines();
 		
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
-				if (!getTileAt(x,y).isMine()) {
-					int neighborMines = getNeighborMines(x,y);
-					if (!(neighborMines == 0)) {
-						setNeighborMines(x,y,neighborMines);
-					}
+				if (!(getNeighborMines2(x,y) == 0) && !(getTileAt(x,y).isMine())) {
+					setNeighborMines(x,y,getNeighborMines(x,y));
 				}
 			}
 		}
 		
 
-		for(int i = 0; i < getSize(); i++) {
-			for(int j = 0; j < getSize(); j++) {
-				
-				Tile tile = getTileAt(i, j);
+		for(int y = 0; y < getSize(); y++) {
+			for(int x = 0; x < getSize(); x++) {
+				Tile tile = getTileAt(x, y);
 				tile.setPrefSize(40, 40);
 				tile.setText(tile.getTile());
 				tile.setOnAction(event -> {
 					System.out.println(tile);
 				});
-				gridPane.add(tile, i, j);
+				gridPane.add(tile, x, y);
 			}
 		}
 		
 		gridPane.setPrefSize(400, 400);
 	}
 	
+	private void addEmptyTiles() {
+		for (int y = 0; y < getSize(); y++) {      
+			for (int x = 0; x < getSize(); x++) {
+				addTile(x,y);
+				setEmpty(x, y);
+				everyPosition.add(makeVector(x, y)); //fyller arraylist med posisjonen nå lagt til
+			}
+		}
+	}
+	
+	private void addMines() { // vet at denne funker
+		for(int i = 0 ; i < getNumOfMines(); i++) {
+			int randomIndex = (int) (Math.random() * everyPosition.size());
+			Vector<Integer> position = everyPosition.get(randomIndex);
+ 			setMine(position.get(0), position.get(1));
+			everyPosition.remove(randomIndex);
+		}
+	}
+
 	public void setMine(int x, int y) {
 		board[y][x].setMine();
 	}
@@ -95,9 +98,9 @@ public class Board {
 	
 	public int getNeighborMines(int x, int y) {
 		int num = 0;
-		for (int i = x - 1; i <= x + 1; i++) {
-			for (int j = y - 1; j <= y + 1; j++) {
-				if (!(i==x && j==y) && isPositionWithinBoard(i, j) && board[i][j].isMine()) {
+		for (int i = y - 1; i <= y + 1; i++) {
+			for (int j = x - 1; j <= x + 1; j++) {
+				if (!(j==x && i==y) && isPositionWithinBoard(j, i) && board[i][j].isMine()) {
 					num += 1;
 				}
 			}
@@ -105,13 +108,23 @@ public class Board {
 		return num;
 	}
 	
-	public boolean isPositionWithinBoard(int x, int y) {
-		return (0 <= x && x < size && 0 <= y && y < size );
+	public int getNeighborMines2(int x, int y) {
+		int num2 = 0;
+		if (!(getTileAt(x,y).isMine())) {
+			for (int i = y - 1; i < y + 2; i++) {
+				for(int j = x - 1; j < x + 2; j++) {
+					if (isPositionWithinBoard(j,i) && (!(j==x && i==y)) && board[i][j].isMine()) {
+						num2 += 1;
+					}
+				}
+			}
+		}
+		return num2;
 	}
 	
-//	private boolean isNum(Tile tile) {
-//		return (!tile.isMine()|| !tile.isEmpty());
-//	}
+	public boolean isPositionWithinBoard(int x, int y) {
+		return (0 <= x && x < getSize() && 0 <= y && y < getSize() );
+	}
 	
 	public Tile getTileAt(int x, int y) {
 		return board[y][x];
