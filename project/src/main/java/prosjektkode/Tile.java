@@ -5,8 +5,14 @@ import javafx.scene.control.Button;
 public class Tile extends Button {
 
 	private String tile;
-	private boolean isOpen = false;
+	private boolean open = false;
+	private int x;
+	private int y;
 	
+	public Tile(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 	public void setEmpty() { // setter tom tile
 		tile = " ";
 	}
@@ -19,8 +25,11 @@ public class Tile extends Button {
 		tile = String.valueOf(neighborMines);
 	}
 	
-	public void setIsOpen(boolean value) {
-		this.isOpen = value;
+	public void setOpen(boolean value) {
+		this.open = value;
+		if(value ) {
+			setDisable(true);
+		}
 	}
 	
 	public boolean isMine() { // sjekker om det er en mine
@@ -37,6 +46,9 @@ public class Tile extends Button {
 	
 	public String getTile() { // henter ut verdi på mine
 		return this.tile;
+	}
+	public boolean isOpen() {
+		return this.open;
 	}
 	
 	public String toString() {

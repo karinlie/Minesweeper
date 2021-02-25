@@ -33,7 +33,10 @@ public class Board {
 	}
 	
 	private void addTile(int x, int y) {
-		Tile t = new Tile();
+		Tile t = new Tile(x, y);
+		t.setOnAction(event -> {
+			openEmptyTiles(x, y);
+		});
 		board[y][x] = t;
 	}
 	
@@ -72,14 +75,21 @@ public class Board {
 				Tile tile = getTileAt(x, y);
 				tile.setPrefSize(40, 40);
 				tile.setText(tile.getTile());
-				tile.setOnAction(event -> {
-					System.out.println(tile);
-				});
 				gridPane.add(tile, x, y);
 			}
 		}
 		
 		gridPane.setPrefSize(400, 400);
+	}
+	private void openEmptyTiles(int x, int y) {
+		board[y][x].setOpen(true);
+		for (int i = y - 1; i <= y + 1; i++) {
+			for (int j = x - 1; j <= x + 1; j++) {
+				if (!(j==x && i==y) && isPositionWithinBoard(j, i) && board[i][j].isEmpty() && (!board[i][j].isOpen())) {
+					openEmptyTiles(j,i);
+				}
+			}
+		}
 	}
 	
 	private void setMine(int x, int y) {
