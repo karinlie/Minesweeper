@@ -26,31 +26,15 @@ public class Board {
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
 		
 		addEmptyTiles();
-		
 		addMines();
-		
-		for (int y = 0; y < size; y++) {
-			for (int x = 0; x < size; x++) {
-				if (!(getNeighborMines2(x,y) == 0) && !(getTileAt(x,y).isMine())) {
-					setNeighborMines(x,y,getNeighborMines(x,y));
-				}
-			}
-		}
-		
+		addNeighborMines();
+		addGridPane(gridPane);
 
-		for(int y = 0; y < getSize(); y++) {
-			for(int x = 0; x < getSize(); x++) {
-				Tile tile = getTileAt(x, y);
-				tile.setPrefSize(40, 40);
-				tile.setText(tile.getTile());
-				tile.setOnAction(event -> {
-					System.out.println(tile);
-				});
-				gridPane.add(tile, x, y);
-			}
-		}
-		
-		gridPane.setPrefSize(400, 400);
+	}
+	
+	public void addTile(int x, int y) {
+		Tile t = new Tile();
+		board[y][x] = t;
 	}
 	
 	private void addEmptyTiles() {
@@ -71,7 +55,33 @@ public class Board {
 			everyPosition.remove(randomIndex);
 		}
 	}
-
+	
+	private void addNeighborMines() {
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				if (!(getNeighborMines(x,y) == 0) && !(getTileAt(x,y).isMine())) {
+					setNeighborMines(x,y,getNeighborMines(x,y));
+				}
+			}
+		}
+	}
+	
+	private void addGridPane(GridPane gridPane) {
+		for(int y = 0; y < getSize(); y++) {
+			for(int x = 0; x < getSize(); x++) {
+				Tile tile = getTileAt(x, y);
+				tile.setPrefSize(40, 40);
+				tile.setText(tile.getTile());
+				tile.setOnAction(event -> {
+					System.out.println(tile);
+				});
+				gridPane.add(tile, x, y);
+			}
+		}
+		
+		gridPane.setPrefSize(400, 400);
+	}
+	
 	public void setMine(int x, int y) {
 		board[y][x].setMine();
 	}
@@ -79,12 +89,7 @@ public class Board {
 	public void setEmpty(int x, int y) {
 		board[y][x].setEmpty();
 	}
-	
-	public void addTile(int x, int y) {
-		Tile t = new Tile();
-		board[y][x] = t;
-	}
-	
+		
 	public Vector<Integer> makeVector(int x, int y) {
 		Vector<Integer> v = new Vector<Integer>();
 		v.add(x);
@@ -106,20 +111,6 @@ public class Board {
 			}
 		}
 		return num;
-	}
-	
-	public int getNeighborMines2(int x, int y) {
-		int num2 = 0;
-		if (!(getTileAt(x,y).isMine())) {
-			for (int i = y - 1; i < y + 2; i++) {
-				for(int j = x - 1; j < x + 2; j++) {
-					if (isPositionWithinBoard(j,i) && (!(j==x && i==y)) && board[i][j].isMine()) {
-						num2 += 1;
-					}
-				}
-			}
-		}
-		return num2;
 	}
 	
 	public boolean isPositionWithinBoard(int x, int y) {

@@ -9,9 +9,9 @@ public class MsApp extends Application {
 	@Override
 	public void start(final Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Minesweeper");
-//		Scene game = new Scene(FXMLLoader.load(MsApp.class.getResource("msUI2.fxml")));
-		Scene menu = new Scene(FXMLLoader.load(MsApp.class.getResource("ChooseLevel.fxml")));
-		primaryStage.setScene(menu);
+		Scene game = new Scene(FXMLLoader.load(MsApp.class.getResource("msUI2.fxml")));
+//		Scene menu = new Scene(FXMLLoader.load(MsApp.class.getResource("ChooseLevel.fxml")));
+		primaryStage.setScene(game);
 		primaryStage.show();
 	}
 	
