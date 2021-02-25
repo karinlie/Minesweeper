@@ -13,7 +13,7 @@ public class Board {
 	private Tile[][] board; // to-dimensjonalt array
 
 	private final List<Integer> levels = List.of(10,25,35); // str på brett utifra vanskelighetsgrad
-	private final List<Integer> numberOfMines = Arrays.asList(10,40,100); // antall miner utifra vanskelighetsgrad
+	private final List<Integer> numberOfMines = Arrays.asList(15,40,100); // antall miner utifra vanskelighetsgrad
 
 	private int size; //faktisk brettstørrelse
 	private int numOfMines; //faktisk antall miner
@@ -74,7 +74,6 @@ public class Board {
 			for(int x = 0; x < getSize(); x++) {
 				Tile tile = getTileAt(x, y);
 				tile.setPrefSize(40, 40);
-				tile.setText(tile.getTile());
 				gridPane.add(tile, x, y);
 			}
 		}
@@ -83,13 +82,16 @@ public class Board {
 	}
 	private void openEmptyTiles(int x, int y) {
 		board[y][x].setOpen(true);
-		for (int i = y - 1; i <= y + 1; i++) {
-			for (int j = x - 1; j <= x + 1; j++) {
-				if (!(j==x && i==y) && isPositionWithinBoard(j, i) && board[i][j].isEmpty() && (!board[i][j].isOpen())) {
-					openEmptyTiles(j,i);
-				}
+		int x0;
+		int y0;
+		for (double i = 0; i < 2*Math.PI; i+= Math.PI/2) {
+			x0 = x + (int) Math.cos(i);
+			y0 = y + (int) Math.sin(i);
+			if (isPositionWithinBoard(x0, y0) && (!board[y0][x0].isMine()) && (!board[y0][x0].isOpen())) {
+				openEmptyTiles(x0,y0);
 			}
 		}
+		
 	}
 	
 	private void setMine(int x, int y) {

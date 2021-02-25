@@ -28,6 +28,7 @@ public class Tile extends Button {
 	public void setOpen(boolean value) {
 		this.open = value;
 		if(value ) {
+			setText(getTile());
 			setDisable(true);
 		}
 	}
@@ -40,8 +41,8 @@ public class Tile extends Button {
 		return tile.equals(" ");
 	}
 	
-	public boolean isNum(Tile tile) { // sjekker om det er et tall
-		return (!tile.isMine()|| !tile.isEmpty());
+	public boolean isNum() { // sjekker om det er et tall
+		return (!isMine()|| !isEmpty());
 	}
 	
 	public String getTile() { // henter ut verdi på mine
