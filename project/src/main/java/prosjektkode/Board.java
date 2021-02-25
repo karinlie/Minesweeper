@@ -32,7 +32,7 @@ public class Board {
 
 	}
 	
-	public void addTile(int x, int y) {
+	private void addTile(int x, int y) {
 		Tile t = new Tile();
 		board[y][x] = t;
 	}
@@ -82,22 +82,22 @@ public class Board {
 		gridPane.setPrefSize(400, 400);
 	}
 	
-	public void setMine(int x, int y) {
+	private void setMine(int x, int y) {
 		board[y][x].setMine();
 	}
 	
-	public void setEmpty(int x, int y) {
+	private void setEmpty(int x, int y) {
 		board[y][x].setEmpty();
 	}
 		
-	public Vector<Integer> makeVector(int x, int y) {
+	private Vector<Integer> makeVector(int x, int y) {
 		Vector<Integer> v = new Vector<Integer>();
 		v.add(x);
 		v.add(y);
 		return v;
 	}
 	
-	public void setNeighborMines(int x, int y, int neighborMines) {
+	private void setNeighborMines(int x, int y, int neighborMines) {
 		board[y][x].setNumber(neighborMines);
 	}
 	
@@ -112,11 +112,7 @@ public class Board {
 		}
 		return num;
 	}
-	
-	public boolean isPositionWithinBoard(int x, int y) {
-		return (0 <= x && x < getSize() && 0 <= y && y < getSize() );
-	}
-	
+		
 	public Tile getTileAt(int x, int y) {
 		return board[y][x];
 	}
@@ -141,6 +137,10 @@ public class Board {
 		return boardString;
 	}
 	
+	public boolean isPositionWithinBoard(int x, int y) {
+		return (0 <= x && x < getSize() && 0 <= y && y < getSize() );
+	}
+
 //	public static void main(String[] args) {
 //		Board b1 = new Board(1);
 //		System.out.println(b1);
