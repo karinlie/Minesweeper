@@ -127,7 +127,6 @@ public class Board {
 	}
 	
 	
-	
 	public void gameOver() {
 		 for( int y = 0; y < getSize(); y++) { // åpner alle feltene
 			 for(int x = 0; x < getSize(); x++) {
