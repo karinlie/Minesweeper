@@ -22,11 +22,10 @@ public class MsApp extends Application {
 //		Scene game = new Scene(FXMLLoader.load(MsApp.class.getResource("ChooseLevel.fxml")));
 //		Stage inputWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 //		
-//		
 //		inputWindow.setScene(game);
 //		inputWindow.show();
 //	}
-//	
+	
 	public static void main(String[] args) {
 		MsApp.launch(args);
 	}

@@ -27,10 +27,11 @@ public class Tile extends Button {
 	
 	public void setOpen(boolean value) {
 		this.open = value;
-		if(value ) {
+		if(value) {
 			setText(getTile());
 			setDisable(true);
 		}
+	
 	}
 	
 	public boolean isMine() { // sjekker om det er en mine

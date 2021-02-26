@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -112,7 +113,7 @@ public class Board {
 			board[y][x].setOpen(true);
 			for (int i = y-1; i <= y+1; i++) {
 				for (int j = x-1; j <= x+1; j++) {
-					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty()) {
+					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty() && !(board[i][j].isOpen())) {
 						board[i][j].setOpen(true);
 						openEmptyTiles(j,i);
 					} else if (isPositionWithinBoard(j,i) && board[i][j].isNum()) {
@@ -125,8 +126,10 @@ public class Board {
 		}
 	}
 	
+	
+	
 	public void gameOver() {
-		 for( int y = 0; y < getSize(); y++) {
+		 for( int y = 0; y < getSize(); y++) { // åpner alle feltene
 			 for(int x = 0; x < getSize(); x++) {
 				 board[y][x].setOpen(true);
 			 }
@@ -139,7 +142,7 @@ public class Board {
 		 label.setMinHeight(50);
 		 label.setMinWidth(80);
 		 if(!popup.isShowing())
-			 popup.show(gridPane,550,300);
+			 popup.show(gridPane,550,300); // sender popup
 		 else
 			 popup.hide(); 
 	}
