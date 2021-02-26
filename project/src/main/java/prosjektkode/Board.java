@@ -6,7 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 
 public class Board {
 	
@@ -19,8 +22,10 @@ public class Board {
 	private int numOfMines; //faktisk antall miner
 	private ArrayList<Vector<Integer>> mines; // plasseringen av de forskjellige minene
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
+	private GridPane gridPane;
 	
 	public Board(GridPane gridPane, int level) {
+		this.gridPane = gridPane;
 		this.size = levels.get(level-1); // finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
@@ -80,30 +85,63 @@ public class Board {
 		
 		gridPane.setPrefSize(400, 400);
 	}
-	private void openEmptyTiles(int x, int y) {
-		board[y][x].setOpen(true);
-		int x0;
-		int y0;
+	
+//	private void openEmptyTiles(int x, int y) {
+//		board[y][x].setOpen(true);
+//		int x0;
+//		int y0;
+//		if(board[y][x].isMine()) {
+//			gameOver();
+//		}
+//		for (double i = 0; i < 2*Math.PI; i+= Math.PI/2) {
+//			x0 = x + (int) Math.cos(i);
+//			y0 = y + (int) Math.sin(i);
+//			if (isPositionWithinBoard(x0, y0) && (!board[y0][x0].isMine()) && (!board[y0][x0].isOpen())) {
+//				openEmptyTiles(x0,y0);
+//			
+//			}
+//			System.out.println("" + y0 + "," + x0 + "," + i);
+//		}
+//		
+//	}
+	
+	public void openEmptyTiles(int x, int y) {
 		if(board[y][x].isMine()) {
 			gameOver();
-		}
-		for (double i = 0; i < 2*Math.PI; i+= Math.PI/2) {
-			x0 = x + (int) Math.cos(i);
-			y0 = y + (int) Math.sin(i);
-			if (isPositionWithinBoard(x0, y0) && (!board[y0][x0].isMine()) && (!board[y0][x0].isOpen())) {
-				openEmptyTiles(x0,y0);
-			
+		} else if(board[y][x].isEmpty()) {
+			board[y][x].setOpen(true);
+			for (int i = y-1; i <= y+1; i++) {
+				for (int j = x-1; j <= x+1; j++) {
+					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty()) {
+						board[i][j].setOpen(true);
+						openEmptyTiles(j,i);
+					} else if (isPositionWithinBoard(j,i) && board[i][j].isNum()) {
+						board[i][j].setOpen(true);
+					}
+				}
 			}
-			System.out.println("" + y0 + "," + x0 + "," + i);
+		} else {
+			board[y][x].setOpen(true);
 		}
-		
 	}
+	
 	public void gameOver() {
 		 for( int y = 0; y < getSize(); y++) {
 			 for(int x = 0; x < getSize(); x++) {
 				 board[y][x].setOpen(true);
 			 }
 		 }
+		 Label label = new Label("Game over! Click restart for new game");
+		 Popup popup = new Popup();
+		 label.setStyle(" -fx-background-color: white;");
+		 popup.getContent().add(label);
+		 label.setTextFill(Color.RED);
+		 label.setMinHeight(50);
+		 label.setMinWidth(80);
+		 if(!popup.isShowing())
+			 popup.show(gridPane,550,300);
+		 else
+			 popup.hide(); 
 	}
 	
 	private void setMine(int x, int y) {
