@@ -19,9 +19,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#handleLevel1" text="Level 1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-            <Button mnemonicParsing="false" onAction="#handleLevel2" text="Level 2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button mnemonicParsing="false" onAction="#handleLevel3" text="Level 3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+            <Button fx:id="button1" mnemonicParsing="false" onAction="#setOnActionButton1" text="Level 1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+            <Button fx:id="button2" mnemonicParsing="false" onAction="#setOnActionButton2" text="Level 2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="button3" mnemonicParsing="false" onAction="#setOnActionButton3" text="Level 3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
             <TextField alignment="CENTER" prefHeight="25.0" prefWidth="281.0" text="Choose level:" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
