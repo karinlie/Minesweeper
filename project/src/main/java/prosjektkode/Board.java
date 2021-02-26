@@ -13,7 +13,7 @@ public class Board {
 	private Tile[][] board; // to-dimensjonalt array
 
 	private final List<Integer> levels = List.of(10,25,35); // str på brett utifra vanskelighetsgrad
-	private final List<Integer> numberOfMines = Arrays.asList(15,40,100); // antall miner utifra vanskelighetsgrad
+	private final List<Integer> numberOfMines = Arrays.asList(25,40,100); // antall miner utifra vanskelighetsgrad
 
 	private int size; //faktisk brettstørrelse
 	private int numOfMines; //faktisk antall miner
@@ -84,15 +84,21 @@ public class Board {
 		board[y][x].setOpen(true);
 		int x0;
 		int y0;
+		if(board[y][x].isMine()) {
+			gameOver();
+		}
 		for (double i = 0; i < 2*Math.PI; i+= Math.PI/2) {
 			x0 = x + (int) Math.cos(i);
 			y0 = y + (int) Math.sin(i);
 			if (isPositionWithinBoard(x0, y0) && (!board[y0][x0].isMine()) && (!board[y0][x0].isOpen())) {
 				openEmptyTiles(x0,y0);
+			
 			}
+			System.out.println("" + y0 + "," + x0 + "," + i);
 		}
 		
 	}
+	
 	
 	private void setMine(int x, int y) {
 		board[y][x].setMine();
