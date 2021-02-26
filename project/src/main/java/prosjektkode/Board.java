@@ -98,7 +98,13 @@ public class Board {
 		}
 		
 	}
-	
+	public void gameOver() {
+		 for( int y = 0; y < getSize(); y++) {
+			 for(int x = 0; x < getSize(); x++) {
+				 board[y][x].setOpen(true);
+			 }
+		 }
+	}
 	
 	private void setMine(int x, int y) {
 		board[y][x].setMine();
