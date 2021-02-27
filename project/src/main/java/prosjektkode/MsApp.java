@@ -21,7 +21,7 @@ public class MsApp extends Application {
 //	public void switchScene(ActionEvent event) throws IOException {
 //		Scene game = new Scene(FXMLLoader.load(MsApp.class.getResource("ChooseLevel.fxml")));
 //		Stage inputWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-//		
+//		>
 //		inputWindow.setScene(game);
 //		inputWindow.show();
 //	}

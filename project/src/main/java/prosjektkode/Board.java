@@ -17,7 +17,7 @@ public class Board {
 	private Tile[][] board; // to-dimensjonalt array
 
 	private final List<Integer> levels = List.of(10,25,35); // str på brett utifra vanskelighetsgrad
-	private final List<Integer> numberOfMines = Arrays.asList(25,40,100); // antall miner utifra vanskelighetsgrad
+	private final List<Integer> numberOfMines = Arrays.asList(10,40,100); // antall miner utifra vanskelighetsgrad
 
 	private int size; //faktisk brettstørrelse
 	private int numOfMines; //faktisk antall miner
