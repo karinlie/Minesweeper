@@ -45,7 +45,7 @@ public class Board {
 				openEmptyTiles(x, y);
 			}
 			else if (event.isSecondaryButtonDown()){
-				System.out.println("Right-clicked!"); // TODO: kode for flagging her
+				t.setFlagged(!t.getFlagged());
 			}
 		});
 		board[y][x] = t;

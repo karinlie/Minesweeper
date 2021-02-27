@@ -8,6 +8,7 @@ public class Tile extends Button {
 	private boolean open = false;
 	private int x;
 	private int y;
+	private boolean flagged = false;
 	
 	public Tile(int x, int y) {
 		this.x = x;
@@ -56,5 +57,16 @@ public class Tile extends Button {
 	public String toString() {
 		return this.tile;
 	}
-	
+	public boolean getFlagged() {
+		return this.flagged;
+	}
+	public void setFlagged(boolean flagged) {
+		this.flagged = flagged;
+		if(flagged) {
+			setText("F");
+		}
+		else if (getText() == "F") {
+			setText("");
+		}
+	}
 }
