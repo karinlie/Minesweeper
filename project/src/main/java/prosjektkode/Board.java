@@ -40,8 +40,13 @@ public class Board {
 	
 	private void addTile(int x, int y) {
 		Tile t = new Tile(x, y);
-		t.setOnAction(event -> {
-			openEmptyTiles(x, y);
+		t.setOnMousePressed(event -> {
+			if (event.isPrimaryButtonDown()) {
+				openEmptyTiles(x, y);
+			}
+			else if (event.isSecondaryButtonDown()){
+				System.out.println("Right-clicked!"); // TODO: kode for flagging her
+			}
 		});
 		board[y][x] = t;
 	}
