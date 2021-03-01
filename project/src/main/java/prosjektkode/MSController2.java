@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -14,10 +15,13 @@ public class MSController2 {
 	@FXML
 	GridPane gridPane;
 
+	@FXML
+	private Label bombLabel;
+	
 	
 	@FXML
 	private void initialize() {
-		new Board(gridPane, level);
+		new Board(gridPane, level, bombLabel);
 	}
 	
 	@FXML

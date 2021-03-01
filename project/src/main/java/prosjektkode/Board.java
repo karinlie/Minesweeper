@@ -24,10 +24,15 @@ public class Board {
 	private ArrayList<Vector<Integer>> mines; // plasseringen av de forskjellige minene
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
 	private GridPane gridPane;
+
+	private Label bombLabel;
+
+	private int flagg;
 	
-	public Board(GridPane gridPane, int level) {
+	public Board(GridPane gridPane, int level,Label bombLabel) {
 		this.gridPane = gridPane;
-		this.size = levels.get(level-1); // finner str. på brettet utifra vanskelighetsgrad
+		this.bombLabel = bombLabel;
+		this.size = levels.get(level-1);// finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
 		
@@ -35,7 +40,7 @@ public class Board {
 		addMines();
 		addNeighborMines();
 		addGridPane(gridPane);
-
+		bombLabel.setText("Mines left: " + numOfMines);
 	}
 	
 	private void addTile(int x, int y) {
@@ -46,6 +51,14 @@ public class Board {
 			}
 			else if (event.isSecondaryButtonDown()){
 				t.setFlagged(!t.getFlagged());
+				if(t.getFlagged()) {
+					flagg += 1;
+				}
+				else {
+					flagg -= 1;
+				}
+				int minesLeft = numOfMines - flagg;
+				bombLabel.setText("Mines left: " + minesLeft);
 			}
 		});
 		board[y][x] = t;
@@ -209,6 +222,8 @@ public class Board {
 	public boolean isPositionWithinBoard(int x, int y) {
 		return (0 <= x && x < getSize() && 0 <= y && y < getSize() );
 	}
+	
+	
 
 //	public static void main(String[] args) {
 //		Board b1 = new Board(1);
