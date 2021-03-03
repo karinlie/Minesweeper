@@ -4,16 +4,17 @@ import javafx.scene.control.Button;
 
 public class Tile extends Button {
 
-	private String tile;
-	private boolean open = false;
-	private int x;
-	private int y;
-	private boolean flagged = false;
+	private String tile; // string med tekst til tile
+	private boolean open = false; // boolean med hvorvidt teksten skal vises (åpen) eller ikke
+	private int x; // x-posisjon til tile
+	private int y; // y-posisjon til tile
+	private boolean flagged = false; // om tile er flagget eller ikke
 	
 	public Tile(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
+	
 	public void setEmpty() { // setter tom tile
 		tile = " ";
 	}
@@ -50,22 +51,22 @@ public class Tile extends Button {
 	public String getTile() { // henter ut verdi på mine
 		return this.tile;
 	}
-	public boolean isOpen() {
+	public boolean isOpen() { // sjekker om tile er åpen/viser teksten
 		return this.open;
 	}
 	
-	public String toString() {
+	public String toString() { // to-string for å vise teksten
 		return this.tile;
 	}
-	public boolean getFlagged() {
+	public boolean getFlagged() { // henter ut verdi for om den er flagget eller ikke
 		return this.flagged;
 	}
-	public void setFlagged(boolean flagged) {
+	public void setFlagged(boolean flagged) { // setter flagged
 		this.flagged = flagged;
 		if(flagged) {
-			setText("F");
+			setText("F"); // setter tekst på tilen hvis den er flagget
 		}
-		else if (getText() == "F") {
+		else if (getText() == "F") { // fjerner tekst på tilen
 			setText("");
 		}
 	}

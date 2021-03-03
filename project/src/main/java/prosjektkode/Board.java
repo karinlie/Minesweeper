@@ -29,61 +29,63 @@ public class Board {
 
 	private int flagg;
 	
-	public Board(GridPane gridPane, int level,Label bombLabel) {
+	public Board(GridPane gridPane, int level, Label bombLabel) {
 		this.gridPane = gridPane;
 		this.bombLabel = bombLabel;
 		this.size = levels.get(level-1);// finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
 		
-		addEmptyTiles();
-		addMines();
-		addNeighborMines();
-		addGridPane(gridPane);
-		bombLabel.setText("Mines left: " + numOfMines);
+		addEmptyTiles(); // legger til tomme tiles
+		addMines();      // legger til miner random på tiles
+		addNeighborMines();  // fyller inn logikk for hvor mange nabominer et felt har
+		addGridPane(gridPane); // oppretter gridPane med buttons
+		bombLabel.setText("Mines left: " + numOfMines); // teller for antall miner igjen
 	}
 	
 	private void addTile(int x, int y) {
 		Tile t = new Tile(x, y);
-		t.setOnMousePressed(event -> {
-			if (event.isPrimaryButtonDown()) {
-				openEmptyTiles(x, y);
-			}
-			else if (event.isSecondaryButtonDown()){
-				t.setFlagged(!t.getFlagged());
-				if(t.getFlagged()) {
-					flagg += 1;
+		t.setOnMousePressed(event -> { // her kobler vi hver tile som extender button opp mot
+			if (event.isPrimaryButtonDown()) {        // venstreklikk (som vil tilsi at vi åpner feltet)
+				if(!t.getFlagged()) {                 // men dersom knappen er flagget skal man ikke kunne åpne den
+					openEmptyTiles(x, y);
 				}
-				else {
+			}
+			else if (event.isSecondaryButtonDown()){  // og høyreklikk (som tilsier at vi markerer knappen)
+				t.setFlagged(!t.getFlagged()); // gjør at vi setter flagged til motsatt av det den er
+				if(t.getFlagged()) { // hvis den er flagget skal flagg oppdateres og settes til 1
+					flagg += 1;      
+				}
+				else {               // hvis den ikke er flagget skal flagg oppdateres og settes til 0
 					flagg -= 1;
 				}
-				int minesLeft = numOfMines - flagg;
-				bombLabel.setText("Mines left: " + minesLeft);
+				int minesLeft = numOfMines - flagg; // oppdaterer antall miner som ikke er markert
+				bombLabel.setText("Mines left: " + minesLeft); // oppdaterer teksten
 			}
 		});
-		board[y][x] = t;
+		board[y][x] = t; // legger tilen til i posisjon i gridpane på brettet
 	}
 	
 	private void addEmptyTiles() {
 		for (int y = 0; y < getSize(); y++) {      
 			for (int x = 0; x < getSize(); x++) {
-				addTile(x,y);
-				setEmpty(x, y);
+				addTile(x,y); // legger til tom tile
+				setEmpty(x, y); // setter teksten til blank
 				everyPosition.add(makeVector(x, y)); //fyller arraylist med posisjonen nå lagt til
 			}
 		}
 	}
 	
-	private void addMines() { // vet at denne funker
+	private void addMines() { 
 		for(int i = 0 ; i < getNumOfMines(); i++) {
-			int randomIndex = (int) (Math.random() * everyPosition.size());
-			Vector<Integer> position = everyPosition.get(randomIndex);
- 			setMine(position.get(0), position.get(1));
-			everyPosition.remove(randomIndex);
+			int randomIndex = (int) (Math.random() * everyPosition.size()); // velger random index i lista over posisjoner
+			Vector<Integer> position = everyPosition.get(randomIndex); // henter ut vektoren på den posisjonen i lista
+ 			setMine(position.get(0), position.get(1)); // setter en mine på denne posisjonen
+			everyPosition.remove(randomIndex); // fjerner det punktet fra lista over felter uten miner
 		}
 	}
 	
-	private void addNeighborMines() {
+	private void addNeighborMines() { // legger til tall/neighbormines teller på hvert felt
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
 				if (!(getNeighborMines(x,y) == 0) && !(getTileAt(x,y).isMine())) {
@@ -96,44 +98,25 @@ public class Board {
 	private void addGridPane(GridPane gridPane) {
 		for(int y = 0; y < getSize(); y++) {
 			for(int x = 0; x < getSize(); x++) {
-				Tile tile = getTileAt(x, y);
-				tile.setPrefSize(40, 40);
-				gridPane.add(tile, x, y);
+				Tile tile = getTileAt(x, y); // henter tile på posisjon i brettet
+				tile.setPrefSize(40, 40); // setter preferert størrelse på button/tile
+				gridPane.add(tile, x, y); // legger til tilpå posisjon i gridpane
 			}
 		}
 		
-		gridPane.setPrefSize(400, 400);
+		gridPane.setPrefSize(400, 400); // setter ønsket størrelse på gridPane
 	}
-	
-//	private void openEmptyTiles(int x, int y) {
-//		board[y][x].setOpen(true);
-//		int x0;
-//		int y0;
-//		if(board[y][x].isMine()) {
-//			gameOver();
-//		}
-//		for (double i = 0; i < 2*Math.PI; i+= Math.PI/2) {
-//			x0 = x + (int) Math.cos(i);
-//			y0 = y + (int) Math.sin(i);
-//			if (isPositionWithinBoard(x0, y0) && (!board[y0][x0].isMine()) && (!board[y0][x0].isOpen())) {
-//				openEmptyTiles(x0,y0);
-//			
-//			}
-//			System.out.println("" + y0 + "," + x0 + "," + i);
-//		}
-//		
-//	}
-	
+		
 	public void openEmptyTiles(int x, int y) {
-		if(board[y][x].isMine()) {
+		if(board[y][x].isMine()) { // dersom vi åpner et felt som er mine --> game over
 			gameOver();
-		} else if(board[y][x].isEmpty()) {
-			board[y][x].setOpen(true);
-			for (int i = y-1; i <= y+1; i++) {
+		} else if(board[y][x].isEmpty()) { // dersom vi åpner et felt som er tomt --> åpne alle rundt
+			board[y][x].setOpen(true); //åpner
+			for (int i = y-1; i <= y+1; i++) { //itererer over brettet
 				for (int j = x-1; j <= x+1; j++) {
-					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty() && !(board[i][j].isOpen())) {
-						board[i][j].setOpen(true);
-						openEmptyTiles(j,i);
+					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty() && !(board[i][j].isOpen())) { // sjekker at posisjon er innafor brettet, at feltet er tomt og at det ikke er åpnet fra før
+						board[i][j].setOpen(true); // åpner
+						openEmptyTiles(j,i); // åpner felter rundt som også er empty/tall ved å kalle den rekursivt
 					} else if (isPositionWithinBoard(j,i) && board[i][j].isNum()) {
 						board[i][j].setOpen(true);
 					}
@@ -151,14 +134,14 @@ public class Board {
 				 board[y][x].setOpen(true);
 			 }
 		 }
-		 Label label = new Label("Game over! Click restart for new game");
-		 Popup popup = new Popup();
-		 label.setStyle(" -fx-background-color: white;");
-		 popup.getContent().add(label);
-		 label.setTextFill(Color.RED);
-		 label.setMinHeight(50);
-		 label.setMinWidth(80);
-		 if(!popup.isShowing())
+		 Label label = new Label("Game over! Click restart for new game"); // setter label
+		 Popup popup = new Popup(); // oppretter en pop-up
+		 label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
+		 popup.getContent().add(label); // legger til label på pop-upen vår
+		 label.setTextFill(Color.RED); // setter fargen på teksten i label til rød
+		 label.setMinHeight(50); // setter høyde på label
+		 label.setMinWidth(80); // setter bredde på label
+		 if(!popup.isShowing()) // hvis pop-upen ikke er synlig
 			 popup.show(gridPane,550,300); // sender popup
 		 else
 			 popup.hide(); 
@@ -172,7 +155,7 @@ public class Board {
 		board[y][x].setEmpty();
 	}
 		
-	private Vector<Integer> makeVector(int x, int y) {
+	private Vector<Integer> makeVector(int x, int y) { // oppretter vektor
 		Vector<Integer> v = new Vector<Integer>();
 		v.add(x);
 		v.add(y);
@@ -183,7 +166,7 @@ public class Board {
 		board[y][x].setNumber(neighborMines);
 	}
 	
-	public int getNeighborMines(int x, int y) {
+	public int getNeighborMines(int x, int y) { // teller antall nabominer til et felt
 		int num = 0;
 		for (int i = y - 1; i <= y + 1; i++) {
 			for (int j = x - 1; j <= x + 1; j++) {
@@ -208,7 +191,7 @@ public class Board {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString() { // to-stringen vi brukte da vi printet brettet i starten
 		String boardString = "";
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
@@ -219,16 +202,8 @@ public class Board {
 		return boardString;
 	}
 	
-	public boolean isPositionWithinBoard(int x, int y) {
+	public boolean isPositionWithinBoard(int x, int y) { // validering for å sjekke at posisjon er innad i brettet
 		return (0 <= x && x < getSize() && 0 <= y && y < getSize() );
 	}
-	
-	
-
-//	public static void main(String[] args) {
-//		Board b1 = new Board(1);
-//		System.out.println(b1);
-//	}
-
-	
+		
 }
