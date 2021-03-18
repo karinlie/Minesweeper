@@ -49,9 +49,11 @@ public class Board {
 			if (event.isPrimaryButtonDown()) {        // venstreklikk (som vil tilsi at vi åpner feltet)
 				if(!t.getFlagged()) {                 // men dersom knappen er flagget skal man ikke kunne åpne den
 					openEmptyTiles(x, y);
+					GameWon();
 				}
 			}
 			else if (event.isSecondaryButtonDown()){  // og høyreklikk (som tilsier at vi markerer knappen)
+				
 				t.setFlagged(!t.getFlagged()); // gjør at vi setter flagged til motsatt av det den er
 				if(t.getFlagged()) { // hvis den er flagget skal flagg oppdateres og settes til 1
 					flagg += 1;      
@@ -61,6 +63,7 @@ public class Board {
 				}
 				int minesLeft = numOfMines - flagg; // oppdaterer antall miner som ikke er markert
 				bombLabel.setText("Mines left: " + minesLeft); // oppdaterer teksten
+				GameWon();
 			}
 		});
 		board[y][x] = t; // legger tilen til i posisjon i gridpane på brettet
@@ -108,10 +111,12 @@ public class Board {
 	}
 		
 	public void openEmptyTiles(int x, int y) {
+//		GameWon();
 		if(board[y][x].isMine()) { // dersom vi åpner et felt som er mine --> game over
 			gameOver();
 		} else if(board[y][x].isEmpty()) { // dersom vi åpner et felt som er tomt --> åpne alle rundt
 			board[y][x].setOpen(true); //åpner
+//			GameWon();
 			for (int i = y-1; i <= y+1; i++) { //itererer over brettet
 				for (int j = x-1; j <= x+1; j++) {
 					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty() && !(board[i][j].isOpen())) { // sjekker at posisjon er innafor brettet, at feltet er tomt og at det ikke er åpnet fra før
@@ -124,6 +129,7 @@ public class Board {
 			}
 		} else {
 			board[y][x].setOpen(true);
+//			GameWon();
 		}
 	}
 	
@@ -146,6 +152,42 @@ public class Board {
 		 else
 			 popup.hide(); 
 	}
+	public void GameWon() {
+		int i = 0;
+		if(getFlagg()== getNumOfMines()) {
+			for (int y = 0; y < size; y++) {
+				for (int x = 0; x < size; x++) {
+					if(getTileAt(x,y).getFlagged() && getTileAt(x,y).isMine()) {
+						i++;
+					}
+				}
+			}
+			if(i==getNumOfMines()) {
+				 Label label = new Label("Game won! Click restart for new game"); // setter label
+				 Popup popup = new Popup(); // oppretter en pop-up
+				 label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
+				 popup.getContent().add(label); // legger til label på pop-upen vår
+				 label.setTextFill(Color.BLUE); // setter fargen på teksten i label til blå
+				 label.setMinHeight(50); // setter høyde på label
+				 label.setMinWidth(80); // setter bredde på label
+				 if(!popup.isShowing()) // hvis pop-upen ikke er synlig
+					 popup.show(gridPane,550,300); // sender popup
+				 else
+					 popup.hide();
+			}
+			
+		}
+	}
+	
+	private Vector<Integer> makeVector(int x, int y) { // oppretter vektor
+		Vector<Integer> v = new Vector<Integer>();
+		v.add(x);
+		v.add(y);
+		return v;
+	}
+	public boolean isPositionWithinBoard(int x, int y) { // validering for å sjekke at posisjon er innad i brettet
+		return (0 <= x && x < getSize() && 0 <= y && y < getSize() );
+	}
 	
 	private void setMine(int x, int y) {
 		board[y][x].setMine();
@@ -155,12 +197,6 @@ public class Board {
 		board[y][x].setEmpty();
 	}
 		
-	private Vector<Integer> makeVector(int x, int y) { // oppretter vektor
-		Vector<Integer> v = new Vector<Integer>();
-		v.add(x);
-		v.add(y);
-		return v;
-	}
 	
 	private void setNeighborMines(int x, int y, int neighborMines) {
 		board[y][x].setNumber(neighborMines);
@@ -189,6 +225,9 @@ public class Board {
 	public int getNumOfMines() {
 		return this.numOfMines;
 	}
+	public int getFlagg() {
+		return this.flagg;
+	}
 	
 	@Override
 	public String toString() { // to-stringen vi brukte da vi printet brettet i starten
@@ -202,8 +241,5 @@ public class Board {
 		return boardString;
 	}
 	
-	public boolean isPositionWithinBoard(int x, int y) { // validering for å sjekke at posisjon er innad i brettet
-		return (0 <= x && x < getSize() && 0 <= y && y < getSize() );
-	}
 		
 }
