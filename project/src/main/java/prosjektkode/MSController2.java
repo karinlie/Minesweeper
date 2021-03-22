@@ -12,31 +12,38 @@ public class MSController2 {
 	
 	private int level=1;
 	
-	@FXML
-	GridPane gridPane;
+	@FXML GridPane gridPane;
 
-	@FXML
-	private Label bombLabel;
+	@FXML private Label bombLabel;
 	
+	@FXML private Button button1, button2, button3;
+	
+	@FXML private Button Button1, Button2, Button3;
 	
 	@FXML
-	private void initialize() {
+	private void run() {
 		new Board(gridPane, level, bombLabel);
 	}
 	
 	@FXML
 	public void setOnActionButton1() {
 		this.level = 1;
+//		initialize();
+		run();
 	}
 	
 	@FXML
 	public void setOnActionButton2() {
 		this.level = 2;
+//		initialize();
+		run();
 	}
 	
 	@FXML
 	public void setOnActionButton3() {
 		this.level = 3;
+//		initialize();
+		run();
 	}
 	
 //	@FXML
