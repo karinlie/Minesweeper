@@ -24,6 +24,16 @@ public class Board {
 	private ArrayList<Vector<Integer>> mines; // plasseringen av de forskjellige minene
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
 	private GridPane gridPane;
+	private Popup popup = new Popup(); // oppretter en pop-up
+
+
+	public Popup getPopup() {
+		return popup;
+	}
+
+	public void setPopup(Popup popup) {
+		this.popup = popup;
+	}
 
 	private Label bombLabel;
 
@@ -102,7 +112,7 @@ public class Board {
 		for(int y = 0; y < getSize(); y++) {
 			for(int x = 0; x < getSize(); x++) {
 				Tile tile = getTileAt(x, y); // henter tile på posisjon i brettet
-				tile.setPrefSize(40, 40); // setter preferert størrelse på button/tile
+				tile.setPrefSize(30, 30); // setter preferert størrelse på button/tile
 				gridPane.add(tile, x, y); // legger til tilpå posisjon i gridpane
 			}
 		}
@@ -139,17 +149,16 @@ public class Board {
 				 board[y][x].setOpen(true);
 			 }
 		 }
-		 Label label = new Label("Game over! Click restart for new game"); // setter label
-		 Popup popup = new Popup(); // oppretter en pop-up
+		 Label label = new Label("Game over! Choose a level for new game"); // setter label
 		 label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
-		 popup.getContent().add(label); // legger til label på pop-upen vår
+		 getPopup().getContent().add(label); // legger til label på pop-upen vår
 		 label.setTextFill(Color.RED); // setter fargen på teksten i label til rød
 		 label.setMinHeight(50); // setter høyde på label
 		 label.setMinWidth(80); // setter bredde på label
-		 if(!popup.isShowing()) // hvis pop-upen ikke er synlig
-			 popup.show(gridPane,550,300); // sender popup
+		 if(!getPopup().isShowing()) // hvis pop-upen ikke er synlig
+			 getPopup().show(gridPane,550,300); // sender popup
 		 else
-			 popup.hide(); 
+			 getPopup().hide(); 
 	}
 	public void GameWon() {
 		int i = 0;
@@ -162,17 +171,16 @@ public class Board {
 				}
 			}
 			if(i==getNumOfMines()) {
-				 Label label = new Label("Game won! Click restart for new game"); // setter label
-				 Popup popup = new Popup(); // oppretter en pop-up
+				 Label label = new Label("Game won! Choose a level for new game"); // setter label
 				 label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
-				 popup.getContent().add(label); // legger til label på pop-upen vår
+				 getPopup().getContent().add(label); // legger til label på pop-upen vår
 				 label.setTextFill(Color.BLUE); // setter fargen på teksten i label til blå
 				 label.setMinHeight(50); // setter høyde på label
 				 label.setMinWidth(80); // setter bredde på label
-				 if(!popup.isShowing()) // hvis pop-upen ikke er synlig
-					 popup.show(gridPane,550,300); // sender popup
+				 if(!getPopup().isShowing()) // hvis pop-upen ikke er synlig
+					 getPopup().show(gridPane,550,300); // sender popup
 				 else
-					 popup.hide();
+					 getPopup().hide();
 			}
 			
 		}

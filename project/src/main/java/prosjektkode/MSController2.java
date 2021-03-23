@@ -11,45 +11,47 @@ import javafx.stage.Stage;
 public class MSController2 {
 	
 	private int level=1;
+	private Board board;
 	
 	@FXML GridPane gridPane;
 
 	@FXML private Label bombLabel;
 	
-	@FXML private Button button1, button2, button3;
-	
 	@FXML private Button Button1, Button2, Button3;
 	
 	@FXML
 	private void run() {
-		new Board(gridPane, level, bombLabel);
+		board = new Board(gridPane, level, bombLabel);
+	}
+	
+	@FXML
+	private void clearGridPane() {
+		if(board != null) {
+			gridPane.getChildren().clear();
+			if(board.getPopup().isShowing())
+				board.getPopup().hide();
+		}
+
 	}
 	
 	@FXML
 	public void setOnActionButton1() {
 		this.level = 1;
-//		initialize();
+		clearGridPane();
 		run();
 	}
 	
 	@FXML
 	public void setOnActionButton2() {
 		this.level = 2;
-//		initialize();
+		clearGridPane();
 		run();
 	}
 	
 	@FXML
 	public void setOnActionButton3() {
 		this.level = 3;
-//		initialize();
+		clearGridPane();
 		run();
 	}
-	
-//	@FXML
-//	public void setOnActionRestart(final Stage primaryStage) throws Exception{
-//		primaryStage.setTitle("Minesweeper");
-//		Scene game = new Scene(FXMLLoader.load(MsApp.class.getResource("msUI2.fxml")));
-//		primaryStage.setScene(game);
-//	}
 }
