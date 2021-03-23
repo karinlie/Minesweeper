@@ -21,7 +21,6 @@ public class Board {
 
 	private int size; //faktisk brettstørrelse
 	private int numOfMines; //faktisk antall miner
-	private ArrayList<Vector<Integer>> mines; // plasseringen av de forskjellige minene
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
 	private GridPane gridPane;
 	private Popup popup = new Popup(); // oppretter en pop-up
