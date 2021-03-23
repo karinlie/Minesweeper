@@ -229,17 +229,17 @@ public class Board {
 		return popup;
 	}
 	
-//	@Override
-//	public String toString() { // to-stringen vi brukte da vi printet brettet i starten
-//		String boardString = "";
-//		for (int y = 0; y < size; y++) {
-//			for (int x = 0; x < size; x++) {
-//				boardString += getTileAt(x,y);
-//			}
-//			boardString += '\n';
-//		}
-//		return boardString;
-//	}
+	@Override
+	public String toString() { // to-stringen vi brukte da vi printet brettet i starten
+		String boardString = "";
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				boardString += getTileAt(x,y);
+			}
+			boardString += '\n';
+		}
+		return boardString;
+	}
 	
 		
 }

@@ -55,9 +55,6 @@ public class Tile extends Button {
 		return this.open;
 	}
 	
-	public String toString() { // to-string for å vise teksten
-		return this.tile;
-	}
 	public boolean getFlagged() { // henter ut verdi for om den er flagget eller ikke
 		return this.flagged;
 	}
@@ -69,5 +66,10 @@ public class Tile extends Button {
 		else if (getText() == "F") { // fjerner tekst på tilen
 			setText("");
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return getTile() + " " + String.valueOf(isOpen()) + " " + String.valueOf(getFlagged());
 	}
 }
