@@ -26,21 +26,12 @@ public class Board {
 	private GridPane gridPane;
 	private Popup popup = new Popup(); // oppretter en pop-up
 
+	private Label bombLabel; //label for antall miner som er igjen, oppdateres hver gang man åpner en mine
 
-	public Popup getPopup() {
-		return popup;
-	}
-
-	public void setPopup(Popup popup) {
-		this.popup = popup;
-	}
-
-	private Label bombLabel;
-
-	private int flagg;
+	private int flagg; //antall flagg (altså hvor mange tiles som er flagget)
 	
 	public Board(GridPane gridPane, int level, Label bombLabel) {
-		this.gridPane = gridPane;
+		this.gridPane = gridPane; //setter et gridpane
 		this.bombLabel = bombLabel;
 		this.size = levels.get(level-1);// finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
@@ -120,12 +111,10 @@ public class Board {
 	}
 		
 	public void openEmptyTiles(int x, int y) {
-//		GameWon();
 		if(board[y][x].isMine()) { // dersom vi åpner et felt som er mine --> game over
 			gameOver();
 		} else if(board[y][x].isEmpty()) { // dersom vi åpner et felt som er tomt --> åpne alle rundt
 			board[y][x].setOpen(true); //åpner
-//			GameWon();
 			for (int i = y-1; i <= y+1; i++) { //itererer over brettet
 				for (int j = x-1; j <= x+1; j++) {
 					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty() && !(board[i][j].isOpen())) { // sjekker at posisjon er innafor brettet, at feltet er tomt og at det ikke er åpnet fra før
@@ -138,10 +127,8 @@ public class Board {
 			}
 		} else {
 			board[y][x].setOpen(true);
-//			GameWon();
 		}
 	}
-	
 	
 	public void gameOver() {
 		 for( int y = 0; y < getSize(); y++) { // åpner alle feltene
@@ -160,6 +147,7 @@ public class Board {
 		 else
 			 getPopup().hide(); 
 	}
+	
 	public void GameWon() {
 		int i = 0;
 		if(getFlagg()== getNumOfMines()) {
@@ -192,6 +180,7 @@ public class Board {
 		v.add(y);
 		return v;
 	}
+	
 	public boolean isPositionWithinBoard(int x, int y) { // validering for å sjekke at posisjon er innad i brettet
 		return (0 <= x && x < getSize() && 0 <= y && y < getSize() );
 	}
@@ -232,21 +221,26 @@ public class Board {
 	public int getNumOfMines() {
 		return this.numOfMines;
 	}
+	
 	public int getFlagg() {
 		return this.flagg;
 	}
 	
-	@Override
-	public String toString() { // to-stringen vi brukte da vi printet brettet i starten
-		String boardString = "";
-		for (int y = 0; y < size; y++) {
-			for (int x = 0; x < size; x++) {
-				boardString += getTileAt(x,y);
-			}
-			boardString += '\n';
-		}
-		return boardString;
+	public Popup getPopup() {
+		return popup;
 	}
+	
+//	@Override
+//	public String toString() { // to-stringen vi brukte da vi printet brettet i starten
+//		String boardString = "";
+//		for (int y = 0; y < size; y++) {
+//			for (int x = 0; x < size; x++) {
+//				boardString += getTileAt(x,y);
+//			}
+//			boardString += '\n';
+//		}
+//		return boardString;
+//	}
 	
 		
 }
