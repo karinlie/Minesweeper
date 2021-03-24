@@ -1,8 +1,14 @@
 package prosjektkode;
 
-import javafx.scene.control.Button;
+public class Tile {
 
-public class Tile extends Button {
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
 
 	private String tile; // string med tekst til tile
 	private boolean open = false; // boolean med hvorvidt teksten skal vises (åpen) eller ikke
@@ -28,12 +34,7 @@ public class Tile extends Button {
 	}
 	
 	public void setOpen(boolean value) {
-		this.open = value;
-		if(value) {
-			setText(getTile());
-			setDisable(true);
-		}
-	
+		this.open = value;	
 	}
 	
 	public boolean isMine() { // sjekker om det er en mine
@@ -58,18 +59,14 @@ public class Tile extends Button {
 	public boolean getFlagged() { // henter ut verdi for om den er flagget eller ikke
 		return this.flagged;
 	}
+	
 	public void setFlagged(boolean flagged) { // setter flagged
 		this.flagged = flagged;
-		if(flagged) {
-			setText("F"); // setter tekst på tilen hvis den er flagget
-		}
-		else if (getText() == "F") { // fjerner tekst på tilen
-			setText("");
-		}
 	}
 	
 	@Override
 	public String toString() {
-		return getTile() + " " + String.valueOf(isOpen()) + " " + String.valueOf(getFlagged());
+		return getTile() + " " + (isOpen() ? "1" : "0") + " " + (getFlagged() ? "1" : "0") + ":";
 	}
+	
 }

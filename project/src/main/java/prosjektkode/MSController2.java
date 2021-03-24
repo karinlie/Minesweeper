@@ -1,5 +1,8 @@
 package prosjektkode;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,24 +15,26 @@ public class MSController2 {
 	
 	private int level=1;
 	private Board board;
+	private BoardGUI boardGUI;
 	
 	@FXML GridPane gridPane;
 
 	@FXML private Label bombLabel;
 	
-	@FXML private Button Button1, Button2, Button3;
+	@FXML private Button Button1, Button2, Button3, saveButton;
 	
 	@FXML
 	private void run() {
-		board = new Board(gridPane, level, bombLabel);
+		board = new Board(level);
+		boardGUI = new BoardGUI(gridPane, board, bombLabel);
 	}
 	
 	@FXML
 	private void clearGridPane() {
 		if(board != null) {
 			gridPane.getChildren().clear();
-			if(board.getPopup().isShowing())
-				board.getPopup().hide();
+			if(boardGUI.getPopup().isShowing())
+				boardGUI.getPopup().hide();
 		}
 
 	}
@@ -53,5 +58,13 @@ public class MSController2 {
 		this.level = 3;
 		clearGridPane();
 		run();
+	}
+	
+	@FXML
+	public void setOnActionSaveButton() throws FileNotFoundException {
+		if(board != null) {
+			saveToFile saveFile = new saveToFile();
+			saveFile.save("game.txt", board);
+		}
 	}
 }

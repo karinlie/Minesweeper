@@ -6,11 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-//import javafx.event.ActionEvent;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Popup;
 
 public class Board {
 	
@@ -22,16 +17,9 @@ public class Board {
 	private int size; //faktisk brettstørrelse
 	private int numOfMines; //faktisk antall miner
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
-	private GridPane gridPane;
-	private Popup popup = new Popup(); // oppretter en pop-up
 
-	private Label bombLabel; //label for antall miner som er igjen, oppdateres hver gang man åpner en mine
-
-	private int flagg; //antall flagg (altså hvor mange tiles som er flagget)
 	
-	public Board(GridPane gridPane, int level, Label bombLabel) {
-		this.gridPane = gridPane; //setter et gridpane
-		this.bombLabel = bombLabel;
+	public Board(int level) {
 		this.size = levels.get(level-1);// finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
@@ -39,33 +27,10 @@ public class Board {
 		addEmptyTiles(); // legger til tomme tiles
 		addMines();      // legger til miner random på tiles
 		addNeighborMines();  // fyller inn logikk for hvor mange nabominer et felt har
-		addGridPane(gridPane); // oppretter gridPane med buttons
-		bombLabel.setText("Mines left: " + numOfMines); // teller for antall miner igjen
 	}
 	
 	private void addTile(int x, int y) {
 		Tile t = new Tile(x, y);
-		t.setOnMousePressed(event -> { // her kobler vi hver tile som extender button opp mot
-			if (event.isPrimaryButtonDown()) {        // venstreklikk (som vil tilsi at vi åpner feltet)
-				if(!t.getFlagged()) {                 // men dersom knappen er flagget skal man ikke kunne åpne den
-					openEmptyTiles(x, y);
-					GameWon();
-				}
-			}
-			else if (event.isSecondaryButtonDown()){  // og høyreklikk (som tilsier at vi markerer knappen)
-				
-				t.setFlagged(!t.getFlagged()); // gjør at vi setter flagged til motsatt av det den er
-				if(t.getFlagged()) { // hvis den er flagget skal flagg oppdateres og settes til 1
-					flagg += 1;      
-				}
-				else {               // hvis den ikke er flagget skal flagg oppdateres og settes til 0
-					flagg -= 1;
-				}
-				int minesLeft = numOfMines - flagg; // oppdaterer antall miner som ikke er markert
-				bombLabel.setText("Mines left: " + minesLeft); // oppdaterer teksten
-				GameWon();
-			}
-		});
 		board[y][x] = t; // legger tilen til i posisjon i gridpane på brettet
 	}
 	
@@ -97,28 +62,16 @@ public class Board {
 			}
 		}
 	}
-	
-	private void addGridPane(GridPane gridPane) {
-		for(int y = 0; y < getSize(); y++) {
-			for(int x = 0; x < getSize(); x++) {
-				Tile tile = getTileAt(x, y); // henter tile på posisjon i brettet
-				tile.setPrefSize(30, 30); // setter preferert størrelse på button/tile
-				gridPane.add(tile, x, y); // legger til tilpå posisjon i gridpane
-			}
-		}
-		gridPane.setPrefSize(800, 800);
-	}
 		
-	public void openEmptyTiles(int x, int y) {
-		if(board[y][x].isMine()) { // dersom vi åpner et felt som er mine --> game over
-			gameOver();
-		} else if(board[y][x].isEmpty()) { // dersom vi åpner et felt som er tomt --> åpne alle rundt
+	public void openTile(int x, int y) {
+
+		if(board[y][x].isEmpty()) { // dersom vi åpner et felt som er tomt --> åpne alle rundt
 			board[y][x].setOpen(true); //åpner
 			for (int i = y-1; i <= y+1; i++) { //itererer over brettet
 				for (int j = x-1; j <= x+1; j++) {
 					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty() && !(board[i][j].isOpen())) { // sjekker at posisjon er innafor brettet, at feltet er tomt og at det ikke er åpnet fra før
 						board[i][j].setOpen(true); // åpner
-						openEmptyTiles(j,i); // åpner felter rundt som også er empty/tall ved å kalle den rekursivt
+						openTile(j,i); // åpner felter rundt som også er empty/tall ved å kalle den rekursivt
 					} else if (isPositionWithinBoard(j,i) && board[i][j].isNum()) {
 						board[i][j].setOpen(true);
 					}
@@ -135,44 +88,22 @@ public class Board {
 				 board[y][x].setOpen(true);
 			 }
 		 }
-		 Label label = new Label("Game over! Choose a level for new game"); // setter label
-		 label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
-		 getPopup().getContent().add(label); // legger til label på pop-upen vår
-		 label.setTextFill(Color.RED); // setter fargen på teksten i label til rød
-		 label.setMinHeight(50); // setter høyde på label
-		 label.setMinWidth(80); // setter bredde på label
-		 if(!getPopup().isShowing()) // hvis pop-upen ikke er synlig
-			 getPopup().show(gridPane,550,300); // sender popup
-		 else
-			 getPopup().hide(); 
+
 	}
 	
-	public void GameWon() {
-		int i = 0;
-		if(getFlagg()== getNumOfMines()) {
-			for (int y = 0; y < size; y++) {
-				for (int x = 0; x < size; x++) {
-					if(getTileAt(x,y).getFlagged() && getTileAt(x,y).isMine()) {
-						i++;
-					}
-				}
+	public boolean GameWon() {
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				Tile t = getTileAt(x,y);
+				if(!t.isMine() && !t.isOpen()) {
+					return false;
+				} 
 			}
-			if(i==getNumOfMines()) {
-				 Label label = new Label("Game won! Choose a level for new game"); // setter label
-				 label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
-				 getPopup().getContent().add(label); // legger til label på pop-upen vår
-				 label.setTextFill(Color.BLUE); // setter fargen på teksten i label til blå
-				 label.setMinHeight(50); // setter høyde på label
-				 label.setMinWidth(80); // setter bredde på label
-				 if(!getPopup().isShowing()) // hvis pop-upen ikke er synlig
-					 getPopup().show(gridPane,550,300); // sender popup
-				 else
-					 getPopup().hide();
-			}
-			
 		}
+		return true;
 	}
 	
+
 	private Vector<Integer> makeVector(int x, int y) { // oppretter vektor
 		Vector<Integer> v = new Vector<Integer>();
 		v.add(x);
@@ -219,14 +150,6 @@ public class Board {
 	
 	public int getNumOfMines() {
 		return this.numOfMines;
-	}
-	
-	public int getFlagg() {
-		return this.flagg;
-	}
-	
-	public Popup getPopup() {
-		return popup;
 	}
 	
 	@Override
