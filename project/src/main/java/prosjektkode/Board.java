@@ -123,7 +123,6 @@ public class Board {
 		board[y][x].setEmpty();
 	}
 		
-	
 	private void setNeighborMines(int x, int y, int neighborMines) {
 		board[y][x].setNumber(neighborMines);
 	}
@@ -163,5 +162,4 @@ public class Board {
 		}
 		return boardString;
 	}
-	
 }
