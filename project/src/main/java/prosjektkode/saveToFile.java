@@ -2,13 +2,10 @@ package prosjektkode;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Scanner;
 
 public class saveToFile {
-	/* kan bruke json, som gjør at man kan ha listestrukturer i en fil og så går det bra
-	 * 
-	*/
+
 	Board newBoard;
 	public final static String SAVE_FOLDER = "src/main/java/savedGames/";
 	
@@ -36,17 +33,25 @@ public class saveToFile {
 			for (int y = 0; y < newBoard.getSize(); y++) {
 				while(scanner.hasNext()) {
 					String line = scanner.next();
-					List<String> eachTile = line.split(":");
-					List<String> eachValue = eachTile.split(" ");
+					String[] eachTile = line.split(":");
 					for (int x = 0; x < newBoard.getSize(); x++) {
-						newBoard.getTileAt(x, y).setTile(eachValue.get(0));
-						newBoard.getTileAt(x, y).setOpen(eachValue.get(1));
-						newBoard.getTileAt(x,y).setFlagged(eachValue.get(2));
+						String[] eachValue = eachTile[x].split("\\s+");
+						newBoard.getTileAt(x, y).setTile(eachValue[0]);
+						newBoard.getTileAt(x, y).setOpen(intToBool(Integer.valueOf(eachValue[1])));
+						newBoard.getTileAt(x,y).setFlagged(intToBool(Integer.valueOf(eachValue[2])));
 					}
 				}
 			}
 		}
 		return newBoard;
+	}
+	
+	public boolean intToBool(int i) {
+		if(i == 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }
