@@ -22,7 +22,7 @@ public class BoardGUI {
 		buildBoard();
 	}
 	
-	public Button addButton(Tile tile) {
+	public Button addButton(Tile tile) { // legger til button på tile, med funksjon for høyre og venstreklikk
 		Button button = new Button();
 		int x = tile.getX();
 		int y = tile.getY();
@@ -61,10 +61,9 @@ public class BoardGUI {
 		return button;
 	}
 	
-	public void gameWonPopup() {
+	private void gameWonPopup() { // popup som sier game won
 		Label label = new Label("Game won! Choose a level for new game"); // setter label
 		label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
-		System.out.println("won");
 		getPopup().getContent().add(label); // legger til label på pop-upen vår
 		label.setTextFill(Color.BLUE); // setter fargen på teksten i label til blå
 		label.setMinHeight(50); // setter høyde på label
@@ -76,15 +75,13 @@ public class BoardGUI {
 		}
 	}
 	
-	public void gameOverPopup() {
+	private void gameOverPopup() { // popup som sier game over
 		Label label = new Label("Game over! Choose a level for new game"); // setter label
 		label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
-		System.out.println("looser");
 		getPopup().getContent().add(label); // legger til label på pop-upen vår
 		label.setTextFill(Color.RED); // setter fargen på teksten i label til rød
 		label.setMinHeight(50); // setter høyde på label
 		label.setMinWidth(80); // setter bredde på label
-		System.out.println(getPopup().isShowing());
 		if(!getPopup().isShowing()) { // hvis pop-upen ikke er synlig
 			getPopup().show(gridPane,550,300); // sender popup
 		} else {
@@ -92,13 +89,12 @@ public class BoardGUI {
 		}
 	}
 	
-	
-	public void updateBombLabel() {
+	private void updateBombLabel() { // oppdaterer hvor mange miner som ikke er flagget
 		bombLabel.setText("Mines left: " + (board.getNumOfMines() - flagg)); // oppdaterer teksten
 	}
 	
 	private void buildBoard() {
-		gridPane.getChildren().clear();
+		gridPane.getChildren().clear(); // fjerner det gamle brettet
 		for(int y = 0; y < board.getSize(); y++) {
 			for(int x = 0; x < board.getSize(); x++) {
 				Button button = addButton(board.getTileAt(x, y)); // henter tile på posisjon i brettet
@@ -107,24 +103,25 @@ public class BoardGUI {
 				showButton(board.getTileAt(x, y), button);
 			}
 		}
-		gridPane.setPrefSize(800, 800);
+		gridPane.setPrefSize(800, 800); // setter størrelse på gridpane
 	}
 
-	public Popup getPopup() {
-		return popup;
-	}
-
-	public void showButton(Tile tile, Button button) {
+	public void showButton(Tile tile, Button button) { // åpner tekst på button 
 		if(tile.getFlagged()) {
 			button.setText("F"); // setter tekst på tilen hvis den er flagget
 		}
 		else if (button.getText() == "F") { // fjerner tekst på tilen
 			button.setText("");
 		}
-		if(tile.isOpen()) {
+		if(tile.isOpen()) { // setter tekst på knappen om den tilen er åpen
 			button.setText(tile.getTile());
 			button.setDisable(true);
 		}
 		
 	}
+	
+	public Popup getPopup() {
+		return popup;
+	}
+
 }

@@ -2,6 +2,7 @@ package prosjektkode;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
 
 public class saveToFile {
@@ -32,7 +33,18 @@ public class saveToFile {
 				int level = board.getLevels().get(size);
 				this.newBoard = new Board(level);
 			}
-			
+			for (int y = 0; y < newBoard.getSize(); y++) {
+				while(scanner.hasNext()) {
+					String line = scanner.next();
+					List<String> eachTile = line.split(":");
+					List<String> eachValue = eachTile.split(" ");
+					for (int x = 0; x < newBoard.getSize(); x++) {
+						newBoard.getTileAt(x, y).setTile(eachValue.get(0));
+						newBoard.getTileAt(x, y).setOpen(eachValue.get(1));
+						newBoard.getTileAt(x,y).setFlagged(eachValue.get(2));
+					}
+				}
+			}
 		}
 		return newBoard;
 	}

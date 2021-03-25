@@ -21,6 +21,10 @@ public class Tile {
 		this.y = y;
 	}
 	
+	public void setTile(String value) {
+		tile = value;
+	}
+	
 	public void setEmpty() { // setter tom tile
 		tile = " ";
 	}
