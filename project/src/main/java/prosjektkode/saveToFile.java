@@ -2,11 +2,13 @@ package prosjektkode;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class saveToFile {
 	/* kan bruke json, som gjør at man kan ha listestrukturer i en fil og så går det bra
 	 * 
 	*/
+	Board newBoard;
 	public final static String SAVE_FOLDER = "src/main/java/savedGames/";
 	
 	public void save(String filename, Board board) throws FileNotFoundException {
@@ -20,6 +22,19 @@ public class saveToFile {
 				writer.println();
 			}
 		}
+	}
+	
+	public Board load(String filename, Board board) throws FileNotFoundException {
+		try (Scanner scanner = new Scanner(SAVE_FOLDER + filename)){
+			
+			if(scanner.hasNext()) {
+				int size = Integer.valueOf(scanner.nextLine());
+				int level = board.getLevels().get(size);
+				this.newBoard = new Board(level);
+			}
+			
+		}
+		return newBoard;
 	}
 	
 }
