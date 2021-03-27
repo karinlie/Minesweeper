@@ -11,10 +11,11 @@ public class saveToFile {
 	
 	public void save(String filename, Board board) throws FileNotFoundException {
 		try (PrintWriter writer = new PrintWriter(SAVE_FOLDER + filename)) {
-			writer.println(board.getSize());
+			int size = board.getSize();
+			writer.println(board.getLevel(size));
 			
-			for (int y = 0; y < board.getSize(); y++) {
-				for (int x = 0; x < board.getSize(); x++) {
+			for (int y = 0; y < size; y++) {
+				for (int x = 0; x < size; x++) {
 					writer.print(board.getTileAt(x, y).toString());
 				}
 				writer.println();
@@ -22,12 +23,11 @@ public class saveToFile {
 		}
 	}
 	
-	public Board load(String filename, Board board) throws FileNotFoundException {
+	public Board load(String filename) throws FileNotFoundException {
 		try (Scanner scanner = new Scanner(SAVE_FOLDER + filename)){
 			
 			if(scanner.hasNext()) {
-				int size = Integer.valueOf(scanner.nextLine());
-				int level = board.getLevels().get(size);
+				int level = Integer.valueOf(scanner.nextLine());
 				this.newBoard = new Board(level);
 			}
 			for (int y = 0; y < newBoard.getSize(); y++) {

@@ -139,8 +139,8 @@ public class Board {
 		return num;
 	}
 		
-	public List<Integer> getLevels() {
-		return this.levels;
+	public int getLevel(int size) {
+		return levels.indexOf(size) + 1;
 	}
 	
 	public Tile getTileAt(int x, int y) {
