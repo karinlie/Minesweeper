@@ -20,16 +20,22 @@ public class MSController2 {
 	
 	@FXML private Button Button1, Button2, Button3, saveButton;
 	
+	
+	
 	@FXML
-	private void run() {
+	private void init() {
 		try {
 			board = saveToFile.load("game.txt");
 			boardGUI = new BoardGUI(gridPane, board, bombLabel);
 		} catch (FileNotFoundException e) {
-			board = new Board(level);
-			boardGUI = new BoardGUI(gridPane, board, bombLabel);
+			newBoard();
 		}
-
+	}
+	
+	@FXML
+	private void newBoard() {
+		board = new Board(level);
+		boardGUI = new BoardGUI(gridPane, board, bombLabel);
 	}
 	
 	@FXML
@@ -46,21 +52,21 @@ public class MSController2 {
 	public void setOnActionButton1() {
 		this.level = 1;
 		clearGridPane();
-		run();
+		newBoard();
 	}
 	
 	@FXML
 	public void setOnActionButton2() {
 		this.level = 2;
 		clearGridPane();
-		run();
+		newBoard();
 	}
 	
 	@FXML
 	public void setOnActionButton3() {
 		this.level = 3;
 		clearGridPane();
-		run();
+		newBoard();
 	}
 	
 	@FXML

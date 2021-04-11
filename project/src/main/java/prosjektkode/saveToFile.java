@@ -2,6 +2,8 @@ package prosjektkode;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class saveToFile implements FileSaver {
@@ -25,7 +27,10 @@ public class saveToFile implements FileSaver {
 	
 	@Override
 	public Board load(String filename) throws FileNotFoundException {
+		checkFileExists(filename);
+		
 		Scanner scanner = new Scanner(SAVE_FOLDER + filename);
+		System.out.println(scanner);
 		Board board;
 		int level = Integer.valueOf(scanner.nextLine());
 		board = new Board(level);
@@ -48,6 +53,12 @@ public class saveToFile implements FileSaver {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public void checkFileExists(String filename) {
+		if(Files.notExists(Paths.get(SAVE_FOLDER + filename))) {
+			throw new FileNotFoundException();
 		}
 	}
 	
