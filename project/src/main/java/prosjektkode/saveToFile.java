@@ -1,9 +1,8 @@
 package prosjektkode;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class saveToFile implements FileSaver {
@@ -27,18 +26,23 @@ public class saveToFile implements FileSaver {
 	
 	@Override
 	public Board load(String filename) throws FileNotFoundException {
-		checkFileExists(filename);
-		
-		Scanner scanner = new Scanner(SAVE_FOLDER + filename);
-		System.out.println(scanner);
+//		checkFileExists(filename);
+//		if(Files.notExists(Paths.get(SAVE_FOLDER + filename))) {
+//			throw new FileNotFoundException();
+//		}
+		Scanner scanner = new Scanner(new File(SAVE_FOLDER + filename));
 		Board board;
-		int level = Integer.valueOf(scanner.nextLine());
+		String line0 = scanner.nextLine();
+		System.out.println("line:" + line0);
+		int level = Integer.valueOf(line0);
+		System.out.println(level);
 		board = new Board(level);
 		for (int y = 0; y < board.getSize(); y++) {
-			String line = scanner.next();
+			String line = scanner.nextLine();
 			String[] eachTile = line.split(":");
 			for (int x = 0; x < board.getSize(); x++) {
-				String[] eachValue = eachTile[x].split("\\s+");
+				String[] eachValue = eachTile[x].split(",");
+				System.out.println(eachValue);
 				board.getTileAt(x, y).setTile(eachValue[0]);
 				board.getTileAt(x, y).setOpen(intToBool(Integer.valueOf(eachValue[1])));
 				board.getTileAt(x,y).setFlagged(intToBool(Integer.valueOf(eachValue[2])));
@@ -56,10 +60,10 @@ public class saveToFile implements FileSaver {
 		}
 	}
 	
-	public void checkFileExists(String filename) {
-		if(Files.notExists(Paths.get(SAVE_FOLDER + filename))) {
-			throw new FileNotFoundException();
-		}
-	}
+//	public void checkFileExists(String filename) {
+//		if(Files.notExists(Paths.get(SAVE_FOLDER + filename))) {
+//			throw new FileNotFoundException();
+//		}
+//	}
 	
 }

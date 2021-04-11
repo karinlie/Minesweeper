@@ -70,7 +70,7 @@ public class Tile {
 	
 	@Override
 	public String toString() {
-		return getTile() + " " + (isOpen() ? "1" : "0") + " " + (getFlagged() ? "1" : "0") + ":";
+		return getTile() + "," + (isOpen() ? "1" : "0") + "," + (getFlagged() ? "1" : "0") + ":";
 	}
 	
 }

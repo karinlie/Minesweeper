@@ -23,11 +23,15 @@ public class MSController2 {
 	
 	
 	@FXML
-	private void init() {
+	private void initialize() {
+		System.out.println("nr 1");
 		try {
 			board = saveToFile.load("game.txt");
+			System.out.println("nr 2");
 			boardGUI = new BoardGUI(gridPane, board, bombLabel);
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("nr 3");
 			newBoard();
 		}
 	}
