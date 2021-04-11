@@ -12,6 +12,7 @@ public class MSController2 {
 	private int level=1;
 	private Board board;
 	private BoardGUI boardGUI;
+	private FileSaver saveToFile = new saveToFile();
 	
 	@FXML GridPane gridPane;
 
@@ -21,8 +22,14 @@ public class MSController2 {
 	
 	@FXML
 	private void run() {
-		board = new Board(level);
-		boardGUI = new BoardGUI(gridPane, board, bombLabel);
+		try {
+			board = saveToFile.load("game.txt");
+			boardGUI = new BoardGUI(gridPane, board, bombLabel);
+		} catch (FileNotFoundException e) {
+			board = new Board(level);
+			boardGUI = new BoardGUI(gridPane, board, bombLabel);
+		}
+
 	}
 	
 	@FXML
@@ -59,8 +66,7 @@ public class MSController2 {
 	@FXML
 	public void setOnActionSaveButton() throws FileNotFoundException {
 		if(board != null) {
-			saveToFile saveFile = new saveToFile();
-			saveFile.save("game.txt", board);
+			saveToFile.save("game.txt", board);
 		}
 	}
 }
