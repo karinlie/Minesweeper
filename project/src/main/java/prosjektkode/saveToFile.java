@@ -24,22 +24,20 @@ public class saveToFile {
 	}
 	
 	public Board load(String filename) throws FileNotFoundException {
-		try (Scanner scanner = new Scanner(SAVE_FOLDER + filename)){
-			
-			if(scanner.hasNext()) {
-				int level = Integer.valueOf(scanner.nextLine());
-				this.newBoard = new Board(level);
-			}
-			for (int y = 0; y < newBoard.getSize(); y++) {
-				while(scanner.hasNext()) {
-					String line = scanner.next();
-					String[] eachTile = line.split(":");
-					for (int x = 0; x < newBoard.getSize(); x++) {
-						String[] eachValue = eachTile[x].split("\\s+");
-						newBoard.getTileAt(x, y).setTile(eachValue[0]);
-						newBoard.getTileAt(x, y).setOpen(intToBool(Integer.valueOf(eachValue[1])));
-						newBoard.getTileAt(x,y).setFlagged(intToBool(Integer.valueOf(eachValue[2])));
-					}
+		Scanner scanner = new Scanner(SAVE_FOLDER + filename));
+		if(scanner.hasNext()) {
+			int level = Integer.valueOf(scanner.nextLine());
+			newBoard = new Board(level);
+		}
+		for (int y = 0; y < newBoard.getSize(); y++) {
+			while(scanner.hasNext()) {
+				String line = scanner.next();
+				String[] eachTile = line.split(":");
+				for (int x = 0; x < newBoard.getSize(); x++) {
+					String[] eachValue = eachTile[x].split("\\s+");
+					newBoard.getTileAt(x, y).setTile(eachValue[0]);
+					newBoard.getTileAt(x, y).setOpen(intToBool(Integer.valueOf(eachValue[1])));
+					newBoard.getTileAt(x,y).setFlagged(intToBool(Integer.valueOf(eachValue[2])));
 				}
 			}
 		}
