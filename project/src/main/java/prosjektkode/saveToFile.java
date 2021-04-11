@@ -26,10 +26,7 @@ public class saveToFile implements FileSaver {
 	
 	@Override
 	public Board load(String filename) throws FileNotFoundException {
-//		checkFileExists(filename);
-//		if(Files.notExists(Paths.get(SAVE_FOLDER + filename))) {
-//			throw new FileNotFoundException();
-//		}
+
 		Scanner scanner = new Scanner(new File(SAVE_FOLDER + filename));
 		Board board;
 		String line0 = scanner.nextLine();
@@ -59,11 +56,5 @@ public class saveToFile implements FileSaver {
 			return false;
 		}
 	}
-	
-//	public void checkFileExists(String filename) {
-//		if(Files.notExists(Paths.get(SAVE_FOLDER + filename))) {
-//			throw new FileNotFoundException();
-//		}
-//	}
-	
+		
 }

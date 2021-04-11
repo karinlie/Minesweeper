@@ -20,6 +20,9 @@ public class Board {
 
 	
 	public Board(int level) {
+		if(level > 3 || level < 1) {
+			throw new IllegalArgumentException("Dette er ikke et gyldig level");
+		}
 		this.size = levels.get(level-1);// finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
@@ -30,6 +33,7 @@ public class Board {
 	}
 	
 	private void addTile(int x, int y) {
+		checkPosition(x, y);
 		Tile t = new Tile(x, y);
 		board[y][x] = t; // legger tilen til i posisjon i gridpane på brettet
 	}
@@ -45,6 +49,13 @@ public class Board {
 	}
 	
 	private void addMines() { 
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				if(getTileAt(x,y).isMine()) {
+					throw new IllegalStateException("Miner allerede lagt til");
+				}
+			}
+			}
 		for(int i = 0 ; i < getNumOfMines(); i++) {
 			int randomIndex = (int) (Math.random() * everyPosition.size()); // velger random index i lista over posisjoner
 			Vector<Integer> position = everyPosition.get(randomIndex); // henter ut vektoren på den posisjonen i lista
@@ -64,7 +75,7 @@ public class Board {
 	}
 		
 	public void openTile(int x, int y) {
-
+		checkPosition(x,y);
 		if(board[y][x].isEmpty()) { // dersom vi åpner et felt som er tomt --> åpne alle rundt
 			board[y][x].setOpen(true); //åpner
 			for (int i = y-1; i <= y+1; i++) { //itererer over brettet
@@ -105,6 +116,7 @@ public class Board {
 	
 
 	private Vector<Integer> makeVector(int x, int y) { // oppretter vektor
+		checkPosition(x, y);
 		Vector<Integer> v = new Vector<Integer>();
 		v.add(x);
 		v.add(y);
@@ -116,18 +128,22 @@ public class Board {
 	}
 	
 	private void setMine(int x, int y) {
+		checkPosition(x, y);
 		board[y][x].setMine();
 	}
 	
 	private void setEmpty(int x, int y) {
+		checkPosition(x, y);
 		board[y][x].setEmpty();
 	}
 		
 	private void setNeighborMines(int x, int y, int neighborMines) {
+		checkPosition(x, y);
 		board[y][x].setNumber(neighborMines);
 	}
 	
 	public int getNeighborMines(int x, int y) { // teller antall nabominer til et felt
+		checkPosition(x, y);
 		int num = 0;
 		for (int i = y - 1; i <= y + 1; i++) {
 			for (int j = x - 1; j <= x + 1; j++) {
@@ -144,6 +160,7 @@ public class Board {
 	}
 	
 	public Tile getTileAt(int x, int y) {
+		checkPosition(x, y);
 		return board[y][x];
 	}
 	
@@ -153,6 +170,12 @@ public class Board {
 	
 	public int getNumOfMines() {
 		return this.numOfMines;
+	}
+	
+	public void checkPosition(int x,int y) throws IllegalArgumentException {
+		if(!isPositionWithinBoard(x,y)) {
+			throw new IllegalArgumentException("Posisjonen er ikke innenfor brettet");
+		}
 	}
 	
 	@Override
