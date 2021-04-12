@@ -17,12 +17,12 @@ public class Board {
 	private int size; //faktisk brettstørrelse
 	private int numOfMines; //faktisk antall miner
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
-
 	
 	public Board(int level) {
-		if(level > 3 || level < 1) {
+		if(level > 3 || level < 1) { // sjekker om input er lovlig
 			throw new IllegalArgumentException("Dette er ikke et gyldig level");
 		}
+		
 		this.size = levels.get(level-1);// finner str. på brettet utifra vanskelighetsgrad
 		this.numOfMines = numberOfMines.get(level-1); // antall miner brettet skal ha
 		board = new Tile[size][size];// oppretter brett av todimensjonale arrays
@@ -49,13 +49,13 @@ public class Board {
 	}
 	
 	private void addMines() { 
-		for (int y = 0; y < size; y++) {
+		for (int y = 0; y < size; y++) { // her sjekker vi sjekker om det allerede er lagt til miner
 			for (int x = 0; x < size; x++) {
 				if(getTileAt(x,y).isMine()) {
 					throw new IllegalStateException("Miner allerede lagt til");
 				}
 			}
-			}
+		}
 		for(int i = 0 ; i < getNumOfMines(); i++) {
 			int randomIndex = (int) (Math.random() * everyPosition.size()); // velger random index i lista over posisjoner
 			Vector<Integer> position = everyPosition.get(randomIndex); // henter ut vektoren på den posisjonen i lista
@@ -114,7 +114,6 @@ public class Board {
 		return true;
 	}
 	
-
 	private Vector<Integer> makeVector(int x, int y) { // oppretter vektor
 		checkPosition(x, y);
 		Vector<Integer> v = new Vector<Integer>();
@@ -139,7 +138,7 @@ public class Board {
 		
 	private void setNeighborMines(int x, int y, int neighborMines) {
 		checkPosition(x, y);
-		board[y][x].setNumber(neighborMines);
+		board[y][x].setNumber(neighborMines); //valideringen for om tallet er rett kommer i tile
 	}
 	
 	public int getNeighborMines(int x, int y) { // teller antall nabominer til et felt
@@ -170,6 +169,18 @@ public class Board {
 	
 	public int getNumOfMines() {
 		return this.numOfMines;
+	}
+	
+	public int getNumOfFlags() {
+		int numOfFlags = 0;
+		for(int y = 0; y < getSize(); y++) {
+			for (int x = 0; x < getSize(); x++){
+				if(this.getTileAt(x,y).getFlagged()) {
+					numOfFlags ++;
+				}
+			}
+		}
+		return numOfFlags;
 	}
 	
 	public void checkPosition(int x,int y) throws IllegalArgumentException {

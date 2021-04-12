@@ -21,6 +21,7 @@ public class saveToFile implements FileSaver {
 				}
 				writer.println();
 			}
+			System.out.println("Saved");
 		}
 	}
 	
@@ -30,16 +31,13 @@ public class saveToFile implements FileSaver {
 		Scanner scanner = new Scanner(new File(SAVE_FOLDER + filename));
 		Board board;
 		String line0 = scanner.nextLine();
-		System.out.println("line:" + line0);
 		int level = Integer.valueOf(line0);
-		System.out.println(level);
 		board = new Board(level);
 		for (int y = 0; y < board.getSize(); y++) {
 			String line = scanner.nextLine();
 			String[] eachTile = line.split(":");
 			for (int x = 0; x < board.getSize(); x++) {
 				String[] eachValue = eachTile[x].split(",");
-				System.out.println(eachValue);
 				board.getTileAt(x, y).setTile(eachValue[0]);
 				board.getTileAt(x, y).setOpen(intToBool(Integer.valueOf(eachValue[1])));
 				board.getTileAt(x,y).setFlagged(intToBool(Integer.valueOf(eachValue[2])));

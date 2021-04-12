@@ -90,7 +90,7 @@ public class BoardGUI {
 	}
 	
 	private void updateBombLabel() { // oppdaterer hvor mange miner som ikke er flagget
-		bombLabel.setText("Mines left: " + (board.getNumOfMines() - flagg)); // oppdaterer teksten
+		bombLabel.setText("Mines left: " + (board.getNumOfMines() - board.getNumOfFlags())); // oppdaterer teksten
 	}
 	
 	private void buildBoard() {
@@ -107,6 +107,9 @@ public class BoardGUI {
 	}
 
 	public void showButton(Tile tile, Button button) { // åpner tekst på button 
+		if( tile == null || button == null) { // sjekker at inputargument er lovlig
+			throw new IllegalArgumentException("tile/button kan ikke være null");
+		}
 		if(tile.getFlagged()) {
 			button.setText("F"); // setter tekst på tilen hvis den er flagget
 		}
@@ -117,11 +120,9 @@ public class BoardGUI {
 			button.setText(tile.getTile());
 			button.setDisable(true);
 		}
-		
 	}
 	
 	public Popup getPopup() {
 		return popup;
 	}
-
 }
