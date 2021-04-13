@@ -17,7 +17,7 @@
                   <Button fx:id="Button1" layoutX="27.0" layoutY="44.0" mnemonicParsing="false" onAction="#setOnActionButton1" text="Level 1" />
                   <Button fx:id="Button2" layoutX="90.0" layoutY="45.0" mnemonicParsing="false" onAction="#setOnActionButton2" text="Level 2" />
                   <Button fx:id="Button3" layoutX="153.0" layoutY="45.0" mnemonicParsing="false" onAction="#setOnActionButton3" text="Level 3" />
-                  <Label layoutX="27.0" layoutY="12.0" prefHeight="25.0" prefWidth="152.0" text="Choose level:" />
+                  <Label layoutX="27.0" layoutY="12.0" prefHeight="25.0" prefWidth="152.0" text="Choose level for new game:" />
                   <Button fx:id="saveButton" layoutX="545.0" layoutY="70.0" mnemonicParsing="false" onAction="#setOnActionSaveButton" text="Save" />
                </children>
             </AnchorPane>

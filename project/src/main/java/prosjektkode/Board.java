@@ -56,6 +56,7 @@ public class Board {
 				}
 			}
 		}
+		
 		for(int i = 0 ; i < getNumOfMines(); i++) {
 			int randomIndex = (int) (Math.random() * everyPosition.size()); // velger random index i lista over posisjoner
 			Vector<Integer> position = everyPosition.get(randomIndex); // henter ut vektoren på den posisjonen i lista
@@ -67,8 +68,9 @@ public class Board {
 	private void addNeighborMines() { // legger til tall/neighbormines teller på hvert felt
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
-				if (!(getNeighborMines(x,y) == 0) && !(getTileAt(x,y).isMine())) {
-					setNeighborMines(x,y,getNeighborMines(x,y));
+				int neighborMines = getNeighborMines(x,y);
+				if (!(neighborMines == 0) && !(getTileAt(x,y).isMine())) {
+					setNeighborMines(x,y,neighborMines);
 				}
 			}
 		}
@@ -77,15 +79,27 @@ public class Board {
 	public void openTile(int x, int y) {
 		checkPosition(x,y);
 		if(board[y][x].isEmpty()) { // dersom vi åpner et felt som er tomt --> åpne alle rundt
-			board[y][x].setOpen(true); //åpner
-			for (int i = y-1; i <= y+1; i++) { //itererer over brettet
+			board[y][x].setOpen(true); // åpner
+			for (int i = y-1; i <= y+1; i++) { // itererer over brettet
 				for (int j = x-1; j <= x+1; j++) {
-					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty() && !(board[i][j].isOpen())) { // sjekker at posisjon er innafor brettet, at feltet er tomt og at det ikke er åpnet fra før
+					// sjekker om det er en posisjon i brettet, om den er tom og om den allerede er åpnet
+					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty() && !(board[i][j].isOpen())) {  
 						board[i][j].setOpen(true); // åpner
-						openTile(j,i); // åpner felter rundt som også er empty/tall ved å kalle den rekursivt
+						openTile(j,i); // åpner felter rundt som også er empty/tall
+					// sjekker om det er en posisjon innad i brettet og om den er et tall
 					} else if (isPositionWithinBoard(j,i) && board[i][j].isNum()) {
 						board[i][j].setOpen(true);
 					}
+					// under her har jeg lagt til et kodeforslag
+//					if(isPositionWithinBoard(j,i)) {
+//						// sjekker om tilen er tom, og om den allerede er åpnet			}
+//						if(board[i][j].isEmpty() && !(board[i][j].isOpen())) {  
+//							board[i][j].setOpen(true); // åpner
+//							openTile(j,i); // åpner felter rundt som også er empty/tall
+//							// sjekker om det er en posisjon innad i brettet og om den er et tall
+//						} else if (board[i][j].isNum()) {
+//							board[i][j].setOpen(true);
+//					}
 				}
 			}
 		} else {
@@ -155,6 +169,9 @@ public class Board {
 	}
 		
 	public int getLevel(int size) {
+		if(!levels.contains(size)) {
+			throw new IllegalArgumentException("Ikke gyldig str. på brettet");
+		}
 		return levels.indexOf(size) + 1;
 	}
 	

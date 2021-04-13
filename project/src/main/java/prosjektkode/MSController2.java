@@ -28,7 +28,6 @@ public class MSController2 {
 			board = saveToFile.load("game.txt");
 			boardGUI = new BoardGUI(gridPane, board, bombLabel);
 		} catch (Exception e) {
-			e.printStackTrace();
 			newBoard();
 		}
 	}
