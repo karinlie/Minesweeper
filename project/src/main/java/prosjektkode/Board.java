@@ -107,16 +107,8 @@ public class Board {
 			board[y][x].setOpen(true);
 		}
 	}
-	
-	public void openAll() {
-		 for( int y = 0; y < getSize(); y++) { // åpner alle feltene
-			 for(int x = 0; x < getSize(); x++) {
-				 board[y][x].setOpen(true);
-			 }
-		 }
-	}
-	
-	public void gameOver() {
+		
+	public void gameOver() { // burde vi kalle denne openAll istedenfor?
 		 for( int y = 0; y < getSize(); y++) { // åpner alle feltene
 			 for(int x = 0; x < getSize(); x++) {
 				 board[y][x].setOpen(true);
