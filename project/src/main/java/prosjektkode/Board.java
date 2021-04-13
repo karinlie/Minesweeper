@@ -17,6 +17,7 @@ public class Board {
 	private int size; //faktisk brettstørrelse
 	private int numOfMines; //faktisk antall miner
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
+
 	
 	public Board(int level) {
 		if(level > 3 || level < 1) { // sjekker om input er lovlig
@@ -107,6 +108,14 @@ public class Board {
 		}
 	}
 	
+	public void openAll() {
+		 for( int y = 0; y < getSize(); y++) { // åpner alle feltene
+			 for(int x = 0; x < getSize(); x++) {
+				 board[y][x].setOpen(true);
+			 }
+		 }
+	}
+	
 	public void gameOver() {
 		 for( int y = 0; y < getSize(); y++) { // åpner alle feltene
 			 for(int x = 0; x < getSize(); x++) {
@@ -116,7 +125,24 @@ public class Board {
 
 	}
 	
-	public boolean GameWon() {
+	public void checkGameOverOrWon(int x, int y, BoardGUI boardGUI) {
+		Tile t = getTileAt(x,y);
+		if(!t.getFlagged()) {
+			if(t.isMine()) {
+				gameOver();
+				boardGUI.gameOverPopup();
+			} else {
+				openTile(x,y);
+				if(gameWon()) {
+					boardGUI.gameWonPopup();
+				}
+			}
+		}
+	}
+	
+
+	
+	public boolean gameWon() {
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
 				Tile t = getTileAt(x,y);

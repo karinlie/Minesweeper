@@ -51,7 +51,7 @@ public class Tile {
 	public void setFlagged(boolean flagged) { // setter flagged
 		this.flagged = flagged;
 	}
-	
+		
 	public String getTile() { // henter ut verdi på mine
 		return this.tile;
 	}

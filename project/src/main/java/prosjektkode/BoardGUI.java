@@ -9,7 +9,6 @@ import javafx.stage.Popup;
 public class BoardGUI {
 	private GridPane gridPane;
 	private Board board;
-	private int flagg;
 	private Popup popup = new Popup();
 	private Label bombLabel; //label for antall miner som er igjen, oppdateres hver gang man åpner en mine
 	
@@ -28,40 +27,18 @@ public class BoardGUI {
 		int y = tile.getY();
 		button.setOnMousePressed(event -> { // her kobler vi hver tile som extender button opp mot
 			if (event.isPrimaryButtonDown()) {        // venstreklikk (som vil tilsi at vi åpner feltet)
-				
-				if(!tile.getFlagged()) {                 // men dersom knappen er flagget skal man ikke kunne åpne den
-					if(board.getTileAt(x, y).isMine()) { // dersom vi åpner et felt som er mine --> game over
-						board.gameOver();
-						gameOverPopup();
-					} else {
-						board.openTile(x, y);
-						if(board.GameWon()) {
-							gameWonPopup();
-						}
-					}
-					
-				}
+				board.checkGameOverOrWon(x, y, this);
 			}
 			else if (event.isSecondaryButtonDown()){  // og høyreklikk (som tilsier at vi markerer knappen)
-				
-				tile.setFlagged(!tile.getFlagged()); // gjør at vi setter flagged til motsatt av det den er
-				if(tile.getFlagged()) { // hvis den er flagget skal flagg oppdateres og settes til 1
-					flagg += 1;      
-				}
-				else {               // hvis den ikke er flagget skal flagg oppdateres og settes til 0
-					flagg -= 1;
-				}
-				if(board.GameWon()) {
-					gameWonPopup();
-				}
+				tile.setFlagged(!tile.getFlagged());
 			}
-			buildBoard();
+			buildBoard(); // når man klikker på en button må brettet bygges på nytt
 			updateBombLabel();
 		});
 		return button;
 	}
 	
-	private void gameWonPopup() { // popup som sier game won
+	public void gameWonPopup() { // popup som sier game won
 		Label label = new Label("Game won! Choose a level for new game"); // setter label
 		label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
 		getPopup().getContent().add(label); // legger til label på pop-upen vår
@@ -75,7 +52,7 @@ public class BoardGUI {
 		}
 	}
 	
-	private void gameOverPopup() { // popup som sier game over
+	public void gameOverPopup() { // popup som sier game over
 		Label label = new Label("Game over! Choose a level for new game"); // setter label
 		label.setStyle(" -fx-background-color: white;"); // setter bakgrunnsfarge
 		getPopup().getContent().add(label); // legger til label på pop-upen vår
