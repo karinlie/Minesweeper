@@ -12,9 +12,10 @@ public class saveToFile implements FileSaver {
 	@Override
 	public void save(String filename, Board board) throws FileNotFoundException {
 		PrintWriter writer = new PrintWriter(SAVE_FOLDER + filename);
+		// henter størrelse på brettet og skriver level på board til fil
 		int size = board.getSize();
 		writer.println(board.getLevel(size));
-			
+		// itererer over posisjonene i brettet og skriver nødvendig info om hver tile til fil
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
 				writer.print(board.getTileAt(x, y).toString());

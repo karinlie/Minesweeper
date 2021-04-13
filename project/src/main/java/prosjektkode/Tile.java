@@ -26,7 +26,6 @@ public class Tile {
 				throw new IllegalArgumentException("Ulovlig verdi");
 			}
 		}
-		
 		tile = value;
 	}
 	
@@ -39,7 +38,7 @@ public class Tile {
 	}
 	
 	public void setNumber(int neighborMines) { // setter antall nabominer
-		if(neighborMines < 1 || neighborMines > 8) {
+		if(neighborMines < 1 || neighborMines > 8) { //validerer at antall miner er lovlig
 			throw new IllegalArgumentException("Kan ikke ha mindre enn 1 eller flere enn 8 nabominer");
 		}
 		tile = String.valueOf(neighborMines);
@@ -87,6 +86,9 @@ public class Tile {
 	
 	@Override
 	public String toString() {
+		/* bruker toString for å skrive nødvendig info om hver tile til fil
+		 * skiller hver tile med ":" og de tre "verdier" som er nødvendige skilles med ";"
+		*/
 		return getTile() + "," + (isOpen() ? "1" : "0") + "," + (getFlagged() ? "1" : "0") + ":";
 	}
 	
