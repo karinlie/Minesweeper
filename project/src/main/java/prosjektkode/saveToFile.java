@@ -7,22 +7,22 @@ import java.util.Scanner;
 
 public class saveToFile implements FileSaver {
 
-	public final static String SAVE_FOLDER = "src/main/java/savedGames/";
+	public static final String SAVE_FOLDER = "src/main/java/savedGames/";
 	
 	@Override
 	public void save(String filename, Board board) throws FileNotFoundException {
-		try (PrintWriter writer = new PrintWriter(SAVE_FOLDER + filename)) {
-			int size = board.getSize();
-			writer.println(board.getLevel(size));
+		PrintWriter writer = new PrintWriter(SAVE_FOLDER + filename);
+		int size = board.getSize();
+		writer.println(board.getLevel(size));
 			
-			for (int y = 0; y < size; y++) {
-				for (int x = 0; x < size; x++) {
-					writer.print(board.getTileAt(x, y).toString());
-				}
-				writer.println();
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				writer.print(board.getTileAt(x, y).toString());
 			}
-			System.out.println("Saved");
+			writer.println();
 		}
+		System.out.println("Saved");
+		writer.close();
 	}
 	
 	@Override

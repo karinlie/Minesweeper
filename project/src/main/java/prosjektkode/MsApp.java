@@ -22,4 +22,3 @@ public class MsApp extends Application {
 		MsApp.launch(args);
 	}
 }
-
