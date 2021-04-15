@@ -34,6 +34,7 @@ public class MSController2 {
 	
 	@FXML
 	private void newBoard() {
+		clearGridPane();
 		board = new Board(level);
 		boardGUI = new BoardGUI(gridPane, board, bombLabel);
 	}
@@ -51,21 +52,18 @@ public class MSController2 {
 	@FXML
 	public void setOnActionButton1() {
 		this.level = 1;
-		clearGridPane();
 		newBoard();
 	}
 	
 	@FXML
 	public void setOnActionButton2() {
 		this.level = 2;
-		clearGridPane();
 		newBoard();
 	}
 	
 	@FXML
 	public void setOnActionButton3() {
 		this.level = 3;
-		clearGridPane();
 		newBoard();
 	}
 	

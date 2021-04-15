@@ -108,7 +108,7 @@ public class Board {
 		}
 	}
 		
-	public void gameOver() { // burde vi kalle denne openAll istedenfor?
+	public void openAll() { // burde vi kalle denne openAll istedenfor?
 		 for( int y = 0; y < getSize(); y++) { // åpner alle feltene
 			 for(int x = 0; x < getSize(); x++) {
 				 board[y][x].setOpen(true);
@@ -121,7 +121,7 @@ public class Board {
 		Tile t = getTileAt(x,y);
 		if(!t.getFlagged()) {
 			if(t.isMine()) {
-				gameOver();
+				openAll();
 				boardGUI.gameOverPopup();
 			} else {
 				openTile(x,y);
