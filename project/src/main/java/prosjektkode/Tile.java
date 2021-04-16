@@ -81,7 +81,13 @@ public class Tile {
 	}
 	
 	public boolean isNum() { // sjekker om det er et tall
-		return (!isMine()|| !isEmpty());
+		try {
+			int num = Integer.parseInt(this.getTile());
+			return true;
+		}
+		catch (NumberFormatException e) {
+			return false;
+		}
 	}
 	
 	@Override

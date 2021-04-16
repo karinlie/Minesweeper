@@ -39,7 +39,7 @@ public class Board {
 		board[y][x] = t; // legger tilen til i posisjon i gridpane på brettet
 	}
 	
-	private void addEmptyTiles() {
+	public void addEmptyTiles() {
 		for (int y = 0; y < getSize(); y++) {      
 			for (int x = 0; x < getSize(); x++) {
 				addTile(x,y); // legger til tom tile
@@ -101,7 +101,7 @@ public class Board {
 		}
 	}
 		
-	public void openAll() { // burde vi kalle denne openAll istedenfor?
+	public void openAll() {
 		 for( int y = 0; y < getSize(); y++) { // åpner alle feltene
 			 for(int x = 0; x < getSize(); x++) {
 				 board[y][x].setOpen(true);
@@ -161,7 +161,7 @@ public class Board {
 		board[y][x].setEmpty();
 	}
 		
-	private void setNeighborMines(int x, int y, int neighborMines) {
+	public void setNeighborMines(int x, int y, int neighborMines) {
 		checkPosition(x, y);
 		board[y][x].setNumber(neighborMines); //valideringen for om tallet er rett kommer i tile
 	}
