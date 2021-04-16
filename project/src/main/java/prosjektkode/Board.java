@@ -107,7 +107,6 @@ public class Board {
 				 board[y][x].setOpen(true);
 			 }
 		 }
-
 	}
 	
 	public void checkGameOverOrWon(int x, int y, BoardGUI boardGUI) {

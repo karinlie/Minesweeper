@@ -156,10 +156,22 @@ public class BoardTest {
 		assertFalse(board2.getTileAt(3, 7).isOpen());
 	}
 	
-
+	@Test
+	@DisplayName("Tester at alle Tiles åpnes")
+	public void testOpenAll() {
+		board2.openAll();
+		for (int y = 0; y < board2.getSize(); y++) {
+			for (int x = 0; x < board2.getSize(); x++) {
+				assertTrue(board2.getTileAt(x, y).isOpen());
+			}
+		}
+	}
 	
-//	@Test 
-//	public void testAddTile() {
-//		
-//	}
+	@Test
+	@DisplayName("Tester game over og game")
+	public void testCheckGameOverOrWon() {
+		
+	}
+	
+	
 }
