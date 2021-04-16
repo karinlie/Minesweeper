@@ -83,24 +83,17 @@ public class Board {
 			board[y][x].setOpen(true); // åpner
 			for (int i = y-1; i <= y+1; i++) { // itererer over brettet
 				for (int j = x-1; j <= x+1; j++) {
-					// sjekker om det er en posisjon i brettet, om den er tom og om den allerede er åpnet
-					if(isPositionWithinBoard(j, i) && board[i][j].isEmpty() && !(board[i][j].isOpen())) {  
-						board[i][j].setOpen(true); // åpner
-						openTile(j,i); // åpner felter rundt som også er empty/tall
-					// sjekker om det er en posisjon innad i brettet og om den er et tall
-					} else if (isPositionWithinBoard(j,i) && board[i][j].isNum()) {
-						board[i][j].setOpen(true);
+					// sjekker om det er en posisjon i brettet
+					if(isPositionWithinBoard(j,i)) {
+						// sjekker om tilen er tom, og om den allerede er åpnet			}
+						if(board[i][j].isEmpty() && !(board[i][j].isOpen())) {  
+							board[i][j].setOpen(true); // åpner
+							openTile(j,i); // åpner felter rundt som også er empty/tall
+						// sjekker om det er en posisjon innad i brettet og om den er et tall
+						} else if (board[i][j].isNum()) {
+							board[i][j].setOpen(true);
+						}
 					}
-					// under her har jeg lagt til et kodeforslag
-//					if(isPositionWithinBoard(j,i)) {
-//						// sjekker om tilen er tom, og om den allerede er åpnet			}
-//						if(board[i][j].isEmpty() && !(board[i][j].isOpen())) {  
-//							board[i][j].setOpen(true); // åpner
-//							openTile(j,i); // åpner felter rundt som også er empty/tall
-//							// sjekker om det er en posisjon innad i brettet og om den er et tall
-//						} else if (board[i][j].isNum()) {
-//							board[i][j].setOpen(true);
-//					}
 				}
 			}
 		} else {
