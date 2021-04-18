@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class saveToFile implements FileSaver {
+public class SaveToFile implements FileSaver {
 
 	public static final String SAVE_FOLDER = "src/main/java/savedGames/";
 	

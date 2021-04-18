@@ -27,7 +27,17 @@ public class BoardGUI {
 		int y = tile.getY();
 		button.setOnMousePressed(event -> { // her kobler vi hver tile som extender button opp mot
 			if (event.isPrimaryButtonDown()) {        // venstreklikk (som vil tilsi at vi åpner feltet)
-				board.checkGameOverOrWon(x, y, this);
+				board.checkGameOverOrWon(x, y);
+				switch(board.getStatus()) {
+				case WIN:
+					gameWonPopup();
+					break;
+				case LOSE:
+					gameOverPopup();
+					break;
+				case CONTINUE:
+					break;
+				}
 			}
 			else if (event.isSecondaryButtonDown()){  // og høyreklikk (som tilsier at vi markerer knappen)
 				tile.setFlagged(!tile.getFlagged());

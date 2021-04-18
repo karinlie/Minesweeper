@@ -12,7 +12,7 @@ public class MSController2 {
 	private int level=1;
 	private Board board;
 	private BoardGUI boardGUI;
-	private FileSaver saveToFile = new saveToFile();
+	private FileSaver saveToFile = new SaveToFile();
 	
 	@FXML GridPane gridPane;
 

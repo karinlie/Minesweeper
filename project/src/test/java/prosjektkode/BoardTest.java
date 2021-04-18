@@ -11,9 +11,7 @@ public class BoardTest {
 	private Board board;
 	private Board board2;
 	
-	@BeforeEach
-	public void setup() {
-		board = new Board(1);
+	private void createBoard() {
 		board2 = new Board(1);
 		// gjør alle tilene tomme
 		board2.addEmptyTiles();
@@ -76,13 +74,20 @@ public class BoardTest {
 	}
 	
 	
+	@BeforeEach
+	public void setup() {
+		board = new Board(1);
+		createBoard();
+	}
+	
+	
 	@Test
 	@DisplayName("Tester konstruktøren")
 	public void testConstructor() {
 		//sjekker at level 1 henter ut rett size fra lista med str
-		assertEquals(board.getSize(), 10);
+		assertEquals(10, board.getSize());
 		//sjekker at level settes rett, og at getLevel stemmer
-		assertEquals(board.getLevel(board.getSize()), 1);
+		assertEquals(1, board.getLevel(board.getSize()));
 		
 		//sjekker at antall miner er korrekt (ved å iterere over brettet)
 		int expectedNumOfMines = 10;
@@ -95,7 +100,7 @@ public class BoardTest {
 			}
 		}
 		
-		assertEquals(actualNumOfMines, expectedNumOfMines);
+		assertEquals(expectedNumOfMines, actualNumOfMines);
 		
 		//sjekker at validering for konstruktøren stemmer
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -110,8 +115,8 @@ public class BoardTest {
 	@DisplayName("Sjekk at nabominer telles rett")
 	public void testGetNeighborMines() {
 		//sjekker at getNeighborMines teller rett (vi har konstruert et brett i setup())
-		assertEquals(board2.getNeighborMines(1, 0),2); 
-		assertEquals(board2.getNeighborMines(2, 7),4);
+		assertEquals(2, board2.getNeighborMines(1, 0)); 
+		assertEquals(4, board2.getNeighborMines(2, 7));
 		
 		//sjekker at ugyldig posisjon kaster exception
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -124,7 +129,7 @@ public class BoardTest {
 		//sjekker at setNeighborMines fungerer som den skal, og at tallet settes riktig på tile
 		board2.setNeighborMines(1,0,board2.getNeighborMines(1, 0));
 		assertTrue(board2.getTileAt(1,0).isNum());
-		assertEquals(board2.getTileAt(1, 0).getTile(), "2");
+		assertEquals("2", board2.getTileAt(1, 0).getTile());
 	}
 	
 	@Test
@@ -168,10 +173,37 @@ public class BoardTest {
 	}
 	
 	@Test
-	@DisplayName("Tester game over og game")
-	public void testCheckGameOverOrWon() {
-		
+	@DisplayName("Tester game over")
+	public void testGameOver() {
+		board2.openTile(0, 0);
+		board2.checkGameOverOrWon(0, 0);
+		assertEquals(WinOrLose.LOSE.name(), board2.getStatus().name());
 	}
 	
+	@Test
+	@DisplayName("Tester game won")
+	public void testGameWon() {
+		for (int y = 0; y < board2.getSize(); y++) {
+			for (int x = 0; x < board2.getSize(); x++) {
+				if (!board2.getTileAt(x, y).isMine()) {
+					if (y == 9 && x == 9) {
+						break;
+					}
+					board2.getTileAt(x, y).setOpen(true);
+				}
+			}
+		}
+		board2.checkGameOverOrWon(9, 9);
+		assertEquals(WinOrLose.WIN.name(), board2.getStatus().name());
+	}	
 	
+	
+	@Test
+	@DisplayName("Tester game continue")
+	public void testGameContinue() {
+		board2.checkGameOverOrWon(2, 1);
+		assertEquals(WinOrLose.CONTINUE.name(), board2.getStatus().name());
+		board2.checkGameOverOrWon(9, 9);
+		assertEquals(WinOrLose.CONTINUE.name(), board2.getStatus().name());
+	}
 }

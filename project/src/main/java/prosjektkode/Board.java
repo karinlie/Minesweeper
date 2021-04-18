@@ -9,6 +9,12 @@ import java.util.Vector;
 
 public class Board {
 	
+	public enum WinOrLose {
+		WIN,
+		LOSE,
+		CONTINUE
+	}
+	
 	private Tile[][] board; // to-dimensjonalt array
 
 	private final List<Integer> levels = List.of(10,20,25); // str på brett utifra vanskelighetsgrad
@@ -18,6 +24,8 @@ public class Board {
 	private int numOfMines; //faktisk antall miner
 	private ArrayList<Vector<Integer>> everyPosition = new ArrayList<Vector<Integer>>(); // arraylist med alle posisjonene --> blir til alle posisjonene uten miner
 
+	private WinOrLose status;
+	
 	
 	public Board(int level) {
 		if(level > 3 || level < 1) { // sjekker om input er lovlig
@@ -109,16 +117,23 @@ public class Board {
 		 }
 	}
 	
-	public void checkGameOverOrWon(int x, int y, BoardGUI boardGUI) {
+	public void checkGameOverOrWon(int x, int y) {
 		Tile t = getTileAt(x,y);
 		if(!t.getFlagged()) {
 			if(t.isMine()) {
+				status = WinOrLose.LOSE;
+				System.out.println("gameLost");
+				System.out.println(status);
+				System.out.println(this.getStatus());
 				openAll();
-				boardGUI.gameOverPopup();
 			} else {
 				openTile(x,y);
 				if(gameWon()) {
-					boardGUI.gameWonPopup();
+					status = WinOrLose.WIN;
+					System.out.println("gameWon");
+				} else {
+					status = WinOrLose.CONTINUE;
+					System.out.println("fortsetter");
 				}
 			}
 		}
@@ -127,8 +142,8 @@ public class Board {
 
 	
 	public boolean gameWon() {
-		for (int y = 0; y < size; y++) {
-			for (int x = 0; x < size; x++) {
+		for (int y = 0; y < getSize(); y++) {
+			for (int x = 0; x < getSize(); x++) {
 				Tile t = getTileAt(x,y);
 				if(!t.isMine() && !t.isOpen()) {
 					return false;
@@ -208,6 +223,10 @@ public class Board {
 			}
 		}
 		return numOfFlags;
+	}
+	
+	public WinOrLose getStatus() {
+		return status;
 	}
 	
 	public void checkPosition(int x,int y) throws IllegalArgumentException {
