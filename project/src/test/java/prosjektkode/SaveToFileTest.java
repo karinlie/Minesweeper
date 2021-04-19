@@ -1,14 +1,17 @@
 package prosjektkode;
 
-import org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.DisplayName;
-
-import java.io.FileNotFoundException;
-
 
 public class SaveToFileTest {
 
@@ -77,25 +80,54 @@ public class SaveToFileTest {
 		board2.getTileAt(4, 9).setNumber(1);
 	}
 	
+	
 	@BeforeEach
 	public void setup() {
 		createBoard();
 	}
 	@Test
 	public void testLoad() {
-		Board savedBoard = board2;
+		Board savedBoard;
 		try {
 			savedBoard = saveToFile.load("saved-board-test");
 		} catch(FileNotFoundException e) {
 			fail("Could not load saved file");
 			return;
 		}
-		assertEquals(board2, savedBoard);
+		assertEquals(board2.toString(), savedBoard.toString());
 		
 	}
+ 
 	
 	@Test
 	public void testSave() {
+		try {
+			saveToFile.save("saved-board-new", board2);
+		} catch (FileNotFoundException e) {
+			fail("Could not save file");
+		}
 		
+		byte[] testFile = null, newFile = null;
+		
+		try {
+			testFile = Files.readAllBytes(Path.of(SaveToFile.getFilePath("saved-board-test")));
+		} catch (IOException e) {
+			fail("Could not load test file");
+		}
+
+		try {
+			newFile = Files.readAllBytes(Path.of(SaveToFile.getFilePath("saved-board-new")));
+		} catch (IOException e) {
+			fail("Could not load saved file");
+		}
+		assertNotNull(testFile);
+		assertNotNull(newFile);
+		assertTrue(Arrays.equals(testFile, newFile));
 	}
+	@AfterAll
+	static void teardown() {
+		File newTestSaveFile = new File(SaveToFile.getFilePath("saved-board-new"));
+		newTestSaveFile.delete();
+	}
+	
 }

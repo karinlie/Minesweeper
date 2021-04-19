@@ -70,7 +70,7 @@ public class MSController2 {
 	@FXML
 	public void setOnActionSaveButton() throws FileNotFoundException {
 		if(board != null) {
-			saveToFile.save("game.txt", board);
+			saveToFile.save("game", board);
 		}
 	}
 }

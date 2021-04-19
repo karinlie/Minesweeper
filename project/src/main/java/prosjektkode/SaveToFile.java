@@ -11,7 +11,7 @@ public class SaveToFile implements FileSaver {
 	
 	@Override
 	public void save(String filename, Board board) throws FileNotFoundException {
-		PrintWriter writer = new PrintWriter(SAVE_FOLDER + filename);
+		PrintWriter writer = new PrintWriter(getFilePath(filename));
 		// henter størrelse på brettet og skriver level på board til fil
 		int size = board.getSize();
 		writer.println(board.getLevel(size));
@@ -29,7 +29,7 @@ public class SaveToFile implements FileSaver {
 	@Override
 	public Board load(String filename) throws FileNotFoundException {
 
-		Scanner scanner = new Scanner(new File(SAVE_FOLDER + filename));
+		Scanner scanner = new Scanner(new File(getFilePath(filename)));
 		Board board;
 		String line0 = scanner.nextLine();
 		int level = Integer.valueOf(line0);
@@ -40,20 +40,17 @@ public class SaveToFile implements FileSaver {
 			for (int x = 0; x < board.getSize(); x++) {
 				String[] eachValue = eachTile[x].split(",");
 				board.getTileAt(x, y).setTile(eachValue[0]);
-				board.getTileAt(x, y).setOpen(intToBool(Integer.valueOf(eachValue[1])));
-				board.getTileAt(x,y).setFlagged(intToBool(Integer.valueOf(eachValue[2])));
+				board.getTileAt(x, y).setOpen(eachValue[1] == "1" ? true : false);
+				board.getTileAt(x,y).setFlagged(eachValue[2] == "1" ? true : false);
 			}
 		}
 		scanner.close();
 		return board;
 	}
 	
-	public boolean intToBool(int i) {
-		if(i == 1) {
-			return true;
-		} else {
-			return false;
-		}
+	
+	public static String getFilePath(String filename) {
+		return SAVE_FOLDER + filename + ".txt";
 	}
 		
 }
