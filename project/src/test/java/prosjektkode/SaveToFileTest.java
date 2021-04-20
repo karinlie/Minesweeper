@@ -16,11 +16,12 @@ import org.junit.jupiter.api.DisplayName;
 
 public class SaveToFileTest {
 
+	private Board board1;
 	private Board board2;
 	private SaveToFile saveToFile = new SaveToFile();
 	
-	private void createBoard() {
-		board2 = new Board(1);
+	private Board createBoard() {
+		Board board2 = new Board(1);
 		// gjør alle tilene tomme
 		board2.addEmptyTiles();
 		// legger til miner på alle tallene
@@ -79,17 +80,27 @@ public class SaveToFileTest {
 		board2.getTileAt(2, 9).setNumber(1);
 		board2.getTileAt(3, 9).setNumber(1);
 		board2.getTileAt(4, 9).setNumber(1);
+		
+		return board2;
 	}
 	
 	
 	@BeforeEach
 	public void setup() {
-		createBoard();
+		board2 = createBoard();
+		board1 = createBoard();
+		board1.openTile(1, 0);
+		try {
+			saveToFile.save("test-with-opened", board1);
+		} catch (FileNotFoundException e) {
+			System.out.println("Couldn't save board3");
+		}
 	}
 	
 	@Test
 	@DisplayName("Sjekker load metoden")
 	public void testLoad() {
+		
 		Board savedBoard;
 		try {
 			savedBoard = saveToFile.load("saved-board-test");
@@ -98,9 +109,25 @@ public class SaveToFileTest {
 			return;
 		}
 		assertEquals(board2.toString(), savedBoard.toString());
-		assertThrows(FileNotFoundException.class, () -> //sjekker at FileNotFound kastes ved lasting av ikke-eksisterende fil
+		
+		
+		//sjekker at det ikke gå å laste ikke-eksisterende fil
+		assertThrows(FileNotFoundException.class, () -> 
 					 board2 = saveToFile.load("eksisterer-ikke")
 					 );
+	}
+	
+	@Test
+	@DisplayName("Kan lagre påbegynte spill")
+	public void testLoadStartedGame() {
+		Board savedBoard2;
+		try {
+			savedBoard2 = saveToFile.load("test-with-opened");
+		} catch(FileNotFoundException e) {
+			fail("Could not load saved file");
+			return;
+		}
+		assertEquals(board1.toString(), savedBoard2.toString());
 	}
  
 	@Test
