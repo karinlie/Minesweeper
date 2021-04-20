@@ -117,7 +117,7 @@ public class SaveToFileTest {
 	public void testLoadStartedGame() {
 		Board savedBoard2;
 		try {
-			savedBoard2 = saveToFile.load("test-with-opened");
+			savedBoard2 = saveToFile.load("saved-board-test-opened");
 		} catch(FileNotFoundException e) {
 			fail("Could not load saved file");
 			return;
