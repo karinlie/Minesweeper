@@ -90,11 +90,6 @@ public class SaveToFileTest {
 		board2 = createBoard();
 		board1 = createBoard();
 		board1.openTile(1, 0);
-		try {
-			saveToFile.save("test-with-opened", board1);
-		} catch (FileNotFoundException e) {
-			System.out.println("Couldn't save board3");
-		}
 	}
 	
 	@Test
