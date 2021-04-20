@@ -40,8 +40,8 @@ public class SaveToFile implements FileSaver {
 			for (int x = 0; x < board.getSize(); x++) {
 				String[] eachValue = eachTile[x].split(",");
 				board.getTileAt(x, y).setTile(eachValue[0]);
-				board.getTileAt(x, y).setOpen(eachValue[1] == "1" ? true : false);
-				board.getTileAt(x,y).setFlagged(eachValue[2] == "1" ? true : false);
+				board.getTileAt(x, y).setOpen(eachValue[1].equals("1") ? true : false);
+				board.getTileAt(x,y).setFlagged(eachValue[2].equals("1") ? true : false);
 			}
 		}
 		scanner.close();

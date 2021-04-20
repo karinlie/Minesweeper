@@ -25,7 +25,7 @@ public class MSController2 {
 	@FXML
 	private void initialize() {
 		try {
-			board = saveToFile.load("game.txt");
+			board = saveToFile.load("game");
 			boardGUI = new BoardGUI(gridPane, board, bombLabel);
 		} catch (Exception e) {
 			newBoard();
@@ -68,9 +68,11 @@ public class MSController2 {
 	}
 	
 	@FXML
-	public void setOnActionSaveButton() throws FileNotFoundException {
-		if(board != null) {
+	public void setOnActionSaveButton() {
+		try {
 			saveToFile.save("game", board);
+		} catch (FileNotFoundException e) {
+			System.out.println("Could not save game");
 		}
 	}
 }
