@@ -12,6 +12,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 
 public class SaveToFileTest {
 
@@ -85,7 +86,9 @@ public class SaveToFileTest {
 	public void setup() {
 		createBoard();
 	}
+	
 	@Test
+	@DisplayName("Sjekker load metoden")
 	public void testLoad() {
 		Board savedBoard;
 		try {
@@ -95,11 +98,21 @@ public class SaveToFileTest {
 			return;
 		}
 		assertEquals(board2.toString(), savedBoard.toString());
-		
+		assertThrows(FileNotFoundException.class, () -> //sjekker at FileNotFound kastes ved lasting av ikke-eksisterende fil
+					 board2 = saveToFile.load("eksisterer-ikke")
+					 );
 	}
  
+	@Test
+	@DisplayName("Skal ikke kunne laste fil som ikke er korrekt")
+	public void testInvalidFile() {
+		assertThrows(Exception.class, () ->
+					 board2 = saveToFile.load("invalid-test") // opprettet en save-fil som manglet en linje
+					 );
+	}
 	
 	@Test
+	@DisplayName("Sjekker save metoden")
 	public void testSave() {
 		try {
 			saveToFile.save("saved-board-new", board2);
@@ -124,6 +137,7 @@ public class SaveToFileTest {
 		assertNotNull(newFile);
 		assertTrue(Arrays.equals(testFile, newFile));
 	}
+	
 	@AfterAll
 	static void teardown() {
 		File newTestSaveFile = new File(SaveToFile.getFilePath("saved-board-new"));
