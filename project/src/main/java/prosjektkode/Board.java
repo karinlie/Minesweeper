@@ -122,18 +122,13 @@ public class Board {
 		if(!t.getFlagged()) {
 			if(t.isMine()) {
 				status = WinOrLose.LOSE;
-				System.out.println("gameLost");
-				System.out.println(status);
-				System.out.println(this.getStatus());
 				openAll();
 			} else {
 				openTile(x,y);
 				if(gameWon()) {
 					status = WinOrLose.WIN;
-					System.out.println("gameWon");
 				} else {
 					status = WinOrLose.CONTINUE;
-					System.out.println("fortsetter");
 				}
 			}
 		}
