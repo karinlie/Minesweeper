@@ -84,9 +84,9 @@ public class BoardGUI {
 		gridPane.getChildren().clear(); // fjerner det gamle brettet
 		for(int y = 0; y < board.getSize(); y++) {
 			for(int x = 0; x < board.getSize(); x++) {
-				Button button = addButton(board.getTileAt(x, y)); // henter tile på posisjon i brettet
+				Button button = addButton(board.getTileAt(x, y)); // gir tile en buttonfunksjon
 				button.setPrefSize(30, 30); // setter preferert størrelse på button/tile
-				gridPane.add(button, x, y); // legger til tilpå posisjon i gridpane
+				gridPane.add(button, x, y); // legger til button på posisjon i gridpane
 				showButton(board.getTileAt(x, y), button);
 			}
 		}
