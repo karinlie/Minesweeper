@@ -14,7 +14,7 @@ public class MSController2 {
 	private BoardGUI boardGUI;
 	private FileSaver saveToFile = new SaveToFile();
 	
-	@FXML GridPane gridPane;
+	@FXML private GridPane gridPane;
 
 	@FXML private Label bombLabel;
 	
@@ -39,7 +39,7 @@ public class MSController2 {
 		boardGUI = new BoardGUI(gridPane, board, bombLabel);
 	}
 	
-	@FXML
+//	@FXML
 	private void clearGridPane() {
 		if(board != null) {
 			gridPane.getChildren().clear();
