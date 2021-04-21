@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import prosjektkode.Board.WinOrLose;
+
 import org.junit.jupiter.api.DisplayName;
 
 public class BoardTest {
