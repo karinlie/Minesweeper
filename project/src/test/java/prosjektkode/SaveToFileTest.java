@@ -165,5 +165,4 @@ public class SaveToFileTest {
 		File newTestSaveFile = new File(SaveToFile.getFilePath("saved-board-new"));
 		newTestSaveFile.delete();
 	}
-	
 }

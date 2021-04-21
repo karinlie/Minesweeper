@@ -209,4 +209,13 @@ public class BoardTest {
 		board2.checkGameOverOrWon(9, 9);
 		assertEquals(WinOrLose.CONTINUE.name(), board2.getStatus().name());
 	}
+	
+	@Test 
+	@DisplayName("Flagged tile skal ikke kunne åpnes")
+	public void testCheckGameOverGameWon() {
+		board2.getTileAt(1, 1).setFlagged(true);
+		board2.checkGameOverOrWon(1, 1);
+		assertTrue(board2.getTileAt(1,1).getFlagged());
+		assertFalse(board2.getTileAt(1,1).isOpen());
+	}
 }
