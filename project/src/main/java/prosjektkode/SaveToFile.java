@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class SaveToFile implements FileSaver {
 
-	public static final String SAVE_FOLDER = "src/main/java/savedGames/";
+	private static final String SAVE_FOLDER = "src/main/java/savedGames/";
 	
 	@Override
 	public void save(String filename, Board board) throws FileNotFoundException {

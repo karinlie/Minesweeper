@@ -100,7 +100,7 @@ public class BoardGUI {
 		if(tile.getFlagged()) {
 			button.setText("F"); // setter tekst på tilen hvis den er flagget
 		}
-		else if (button.getText() == "F") { // fjerner tekst på tilen
+		else if (button.getText().equals("F")) { // fjerner tekst på tilen
 			button.setText("");
 		}
 		if(tile.isOpen()) { // setter tekst på knappen om den tilen er åpen
